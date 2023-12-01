@@ -1,0 +1,922 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>6.7. Kubernetes的调度 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Request&Limit.html" />
+    
+    
+    <link rel="prev" href="Deployment.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../Linux/">
+            
+                <a href="../Linux/">
+            
+                    
+                    1. Linux基础介绍
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../Linux/LinuxBase.html">
+            
+                <a href="../Linux/LinuxBase.html">
+            
+                    
+                    1.1. Linux基本介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../Linux/LinuxInstall.html">
+            
+                <a href="../Linux/LinuxInstall.html">
+            
+                    
+                    1.2. Linux系统安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../Linux/LinuxSSH.html">
+            
+                <a href="../Linux/LinuxSSH.html">
+            
+                    
+                    1.3. LinuxSSH连接
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../LinuxBasic/">
+            
+                <a href="../LinuxBasic/">
+            
+                    
+                    2. Linux基础操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../LinuxBasic/System.html">
+            
+                <a href="../LinuxBasic/System.html">
+            
+                    
+                    2.1. Linux系统操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../LinuxBasic/User.html">
+            
+                <a href="../LinuxBasic/User.html">
+            
+                    
+                    2.2. Linux用户操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../LinuxBasic/Permissions.html">
+            
+                <a href="../LinuxBasic/Permissions.html">
+            
+                    
+                    2.3. Linux权限操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../LinuxBasic/File.html">
+            
+                <a href="../LinuxBasic/File.html">
+            
+                    
+                    2.4. Linux文件操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../LinuxBasic/Soft.html">
+            
+                <a href="../LinuxBasic/Soft.html">
+            
+                    
+                    2.5. Linux软件操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../LinuxBasic/Network.html">
+            
+                <a href="../LinuxBasic/Network.html">
+            
+                    
+                    2.6. Linux网络操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../LinuxBasic/Safety.html">
+            
+                <a href="../LinuxBasic/Safety.html">
+            
+                    
+                    2.7. Linux安全操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../LinuxAdvanced/">
+            
+                <a href="../LinuxAdvanced/">
+            
+                    
+                    3. Linux进阶操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../LinuxAdvanced/Hostname.html">
+            
+                <a href="../LinuxAdvanced/Hostname.html">
+            
+                    
+                    3.1. Linux主机名
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../LinuxAdvanced/Env.html">
+            
+                <a href="../LinuxAdvanced/Env.html">
+            
+                    
+                    3.2. Linux环境变量
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../LinuxAdvanced/Mirrors.html">
+            
+                <a href="../LinuxAdvanced/Mirrors.html">
+            
+                    
+                    3.3. Linux的Yum源
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../LinuxAdvanced/Ntp.html">
+            
+                <a href="../LinuxAdvanced/Ntp.html">
+            
+                    
+                    3.4. Linux的NTP
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../LinuxAdvanced/Soft.md">
+            
+                <span>
+            
+                    
+                    3.5. Linux软件操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../LinuxAdvanced/Network.html">
+            
+                <a href="../LinuxAdvanced/Network.html">
+            
+                    
+                    3.6. Linux网络操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../LinuxAdvanced/Safety.md">
+            
+                <span>
+            
+                    
+                    3.7. Linux安全操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../Middleware/">
+            
+                <a href="../Middleware/">
+            
+                    
+                    4. 中间件
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../Middleware/RocketMQ.html">
+            
+                <a href="../Middleware/RocketMQ.html">
+            
+                    
+                    4.1. RocketMQ
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../Docker/">
+            
+                <a href="../Docker/">
+            
+                    
+                    5. Docker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    6. Kubernetes
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="Concept.html">
+            
+                <a href="Concept.html">
+            
+                    
+                    6.1. Kubernetes基本概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="Install.html">
+            
+                <a href="Install.html">
+            
+                    
+                    6.2. Kubernetes安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="Kubectl.html">
+            
+                <a href="Kubectl.html">
+            
+                    
+                    6.3. Kubectl命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="Pod.html">
+            
+                <a href="Pod.html">
+            
+                    
+                    6.4. Pod的介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5" data-path="PodStatus.html">
+            
+                <a href="PodStatus.html">
+            
+                    
+                    6.5. Pod的状态
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6" data-path="Deployment.html">
+            
+                <a href="Deployment.html">
+            
+                    
+                    6.6. Deployment的介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.7.7" data-path="Scheduler.html">
+            
+                <a href="Scheduler.html">
+            
+                    
+                    6.7. Kubernetes的调度
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.8" data-path="Request&Limit.html">
+            
+                <a href="Request&Limit.html">
+            
+                    
+                    6.8. Kubernetes的资源限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.9" data-path="HealthCheck.html">
+            
+                <a href="HealthCheck.html">
+            
+                    
+                    6.9. Kubernetes的健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.10" data-path="Service.html">
+            
+                <a href="Service.html">
+            
+                    
+                    6.10. Kubernetes的服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.11" data-path="Ingress.html">
+            
+                <a href="Ingress.html">
+            
+                    
+                    6.11. Kubernetes的Ingress
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.12" data-path="Helm.html">
+            
+                <a href="Helm.html">
+            
+                    
+                    6.12. Kubernetes的Helm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.13" data-path="PV&PVC.html">
+            
+                <a href="PV&PVC.html">
+            
+                    
+                    6.13. Kubernetes的存储
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >6.7. Kubernetes的调度</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="pod&#x7684;&#x8C03;&#x5EA6;">Pod&#x7684;&#x8C03;&#x5EA6;</h1>
+<p>Pod &#x7684;&#x8C03;&#x5EA6;&#x662F; Kubernetes &#x4E2D;&#x5C06; Pod &#x653E;&#x7F6E;&#x5728;&#x5408;&#x9002;&#x8282;&#x70B9;&#x4E0A;&#x8FD0;&#x884C;&#x7684;&#x8FC7;&#x7A0B;&#x3002;&#x8C03;&#x5EA6;&#x5668;&#x662F; Kubernetes &#x63A7;&#x5236;&#x5E73;&#x9762;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x5B83;&#x8D1F;&#x8D23;&#x6839;&#x636E;&#x8C03;&#x5EA6;&#x7B97;&#x6CD5;&#x548C;&#x5F53;&#x524D;&#x96C6;&#x7FA4;&#x7684;&#x72B6;&#x6001;&#x9009;&#x62E9;&#x6700;&#x4F73;&#x8282;&#x70B9;&#x3002;&#x4EE5;&#x4E0B;&#x662F; Pod &#x8C03;&#x5EA6;&#x7684;&#x4E3B;&#x8981;&#x6B65;&#x9AA4;&#x548C;&#x8003;&#x8651;&#x56E0;&#x7D20;&#xFF1A;</p>
+<ol>
+<li><strong>&#x8C03;&#x5EA6;&#x9700;&#x6C42;</strong>&#xFF1A;&#x9996;&#x5148;&#xFF0C;&#x5B9A;&#x4E49;&#x4F60;&#x7684; Pod &#x9700;&#x8981;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x8D44;&#x6E90;&#x548C;&#x6761;&#x4EF6;&#x3002;&#x8FD9;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8D44;&#x6E90;&#x8BF7;&#x6C42;&#x3001;&#x9650;&#x5236;&#x548C; Pod &#x4EB2;&#x548C;&#x6027;&#x89C4;&#x5219;&#x6765;&#x6307;&#x5B9A;&#x3002;</li>
+<li><strong>&#x8D44;&#x6E90;&#x8BF7;&#x6C42;&#x548C;&#x9650;&#x5236;</strong>&#xFF1A;&#x5728; Pod &#x7684;&#x5B9A;&#x4E49;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x4E3A;&#x6BCF;&#x4E2A;&#x5BB9;&#x5668;&#x6307;&#x5B9A; <code>resources.requests</code>&#xFF08;&#x6700;&#x5C0F;&#x8D44;&#x6E90;&#x9700;&#x6C42;&#xFF09;&#x548C; <code>resources.limits</code>&#xFF08;&#x8D44;&#x6E90;&#x4F7F;&#x7528;&#x4E0A;&#x9650;&#xFF09;&#x3002;&#x8C03;&#x5EA6;&#x5668;&#x4F1A;&#x786E;&#x4FDD; Pod &#x5206;&#x914D;&#x5230;&#x7684;&#x8282;&#x70B9;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x8D44;&#x6E90;&#x6765;&#x6EE1;&#x8DB3;&#x5176;&#x8BF7;&#x6C42;&#x3002;</li>
+<li><strong>&#x6807;&#x7B7E;&#x548C;&#x9009;&#x62E9;&#x5668;</strong>&#xFF1A;&#x901A;&#x8FC7;&#x6807;&#x7B7E;&#xFF08;Labels&#xFF09;&#x548C;&#x9009;&#x62E9;&#x5668;&#xFF08;Selectors&#xFF09;&#x53EF;&#x4EE5;&#x63A7;&#x5236; Pod &#x5E94;&#x8BE5;&#x8C03;&#x5EA6;&#x5230;&#x54EA;&#x4E9B;&#x8282;&#x70B9;&#x4E0A;&#x3002;&#x8282;&#x70B9;&#x4EB2;&#x548C;&#x6027;&#xFF08;node affinity&#xFF09;&#x548C;&#x53CD;&#x4EB2;&#x548C;&#x6027;&#xFF08;node anti-affinity&#xFF09;&#x89C4;&#x5219;&#x5141;&#x8BB8; Pods &#x88AB;&#x5438;&#x5F15;&#x6216;&#x6392;&#x65A5;&#x4E8E;&#x5177;&#x6709;&#x7279;&#x5B9A;&#x6807;&#x7B7E;&#x7684;&#x8282;&#x70B9;&#x3002;</li>
+<li><strong>&#x6C61;&#x70B9;&#x548C;&#x5BB9;&#x5FCD;&#x5EA6;</strong>&#xFF1A;&#x8282;&#x70B9;&#x4E0A;&#x7684;&#x6C61;&#x70B9;&#xFF08;Taints&#xFF09;&#x963B;&#x6B62;&#x67D0;&#x4E9B; Pod &#x8C03;&#x5EA6;&#x5230;&#x8FD9;&#x4E9B;&#x8282;&#x70B9;&#x4E0A;&#xFF0C;&#x9664;&#x975E;&#x8FD9;&#x4E9B; Pod &#x6709;&#x5339;&#x914D;&#x7684;&#x5BB9;&#x5FCD;&#x5EA6;&#xFF08;Tolerations&#xFF09;&#x3002;</li>
+<li><strong>&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x96C6;</strong>&#xFF1A;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x96C6;&#xFF08;DaemonSet&#xFF09;&#x662F;&#x4E00;&#x79CD;&#x786E;&#x4FDD;&#x6240;&#x6709;&#xFF08;&#x6216;&#x67D0;&#x4E9B;&#xFF09;&#x8282;&#x70B9;&#x8FD0;&#x884C; Pod &#x526F;&#x672C;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x901A;&#x5E38;&#x7528;&#x4E8E;&#x65E5;&#x5FD7;&#x6536;&#x96C6;&#x3001;&#x76D1;&#x63A7;&#x4EE3;&#x7406;&#x7B49;&#x3002;</li>
+<li><strong>Pod &#x4EB2;&#x548C;&#x6027;&#x548C;&#x53CD;&#x4EB2;&#x548C;&#x6027;</strong>&#xFF1A;Pod &#x53EF;&#x4EE5;&#x901A;&#x8FC7; Pod &#x4EB2;&#x548C;&#x6027;&#x89C4;&#x5219;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x8FD0;&#x884C;&#x7279;&#x5B9A; Pod &#x7684;&#x8282;&#x70B9;&#x4E0A;&#xFF0C;&#x6216;&#x8005;&#x901A;&#x8FC7; Pod &#x53CD;&#x4EB2;&#x548C;&#x6027;&#x89C4;&#x5219;&#x907F;&#x514D;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x8FD0;&#x884C;&#x7279;&#x5B9A; Pod &#x7684;&#x8282;&#x70B9;&#x4E0A;&#x3002;</li>
+<li><strong>&#x8282;&#x70B9;&#x9009;&#x62E9;&#x5668;</strong>&#xFF1A;&#x901A;&#x8FC7;&#x8282;&#x70B9;&#x9009;&#x62E9;&#x5668;&#xFF08;nodeSelector&#xFF09;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06; Pod &#x5206;&#x914D;&#x7ED9;&#x5177;&#x6709;&#x7279;&#x5B9A;&#x6807;&#x7B7E;&#x7684;&#x8282;&#x70B9;&#x3002;</li>
+</ol>
+<p>&#x8C03;&#x5EA6;&#x5668;&#x5728;&#x51B3;&#x5B9A;&#x5C06; Pod &#x653E;&#x7F6E;&#x5728;&#x4F55;&#x5904;&#x65F6;&#xFF0C;&#x9075;&#x5FAA;&#x4EE5;&#x4E0B;&#x57FA;&#x672C;&#x6D41;&#x7A0B;&#xFF1A;</p>
+<ul>
+<li><strong>&#x9884;&#x9009;&#xFF08;Predicates&#xFF09;</strong>&#xFF1A;&#x8C03;&#x5EA6;&#x5668;&#x7B5B;&#x9009;&#x51FA;&#x7B26;&#x5408; Pod &#x8D44;&#x6E90;&#x8BF7;&#x6C42;&#x3001;&#x8282;&#x70B9;&#x9009;&#x62E9;&#x5668;&#x3001;&#x5BB9;&#x5FCD;&#x5EA6;&#x7B49;&#x8981;&#x6C42;&#x7684;&#x8282;&#x70B9;&#x3002;&#x6392;&#x9664;&#x90A3;&#x4E9B;&#x4E0D;&#x6EE1;&#x8DB3;&#x57FA;&#x672C;&#x524D;&#x63D0;&#x6761;&#x4EF6;&#x7684;&#x8282;&#x70B9;&#x3002;</li>
+<li><strong>&#x4F18;&#x9009;&#xFF08;Priorities&#xFF09;</strong>&#xFF1A;&#x5BF9;&#x4E8E;&#x901A;&#x8FC7;&#x9884;&#x9009;&#x7684;&#x8282;&#x70B9;&#xFF0C;&#x8C03;&#x5EA6;&#x5668;&#x4F1A;&#x8BC4;&#x5206;&#xFF0C;&#x4F18;&#x5148;&#x8003;&#x8651;&#x90A3;&#x4E9B;&#x8D44;&#x6E90;&#x5229;&#x7528;&#x7387;&#x6700;&#x9AD8;&#x3001;&#x6700;&#x80FD;&#x6EE1;&#x8DB3; Pod &#x4EB2;&#x548C;&#x6027;/&#x53CD;&#x4EB2;&#x548C;&#x6027;&#x89C4;&#x5219;&#x7684;&#x8282;&#x70B9;&#x3002;</li>
+<li><strong>&#x7ED1;&#x5B9A;&#xFF08;Binding&#xFF09;</strong>&#xFF1A;&#x4E00;&#x65E6;&#x9009;&#x62E9;&#x4E86;&#x6700;&#x4F73;&#x8282;&#x70B9;&#xFF0C;&#x8C03;&#x5EA6;&#x5668;&#x4F1A;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7ED1;&#x5B9A;&#x64CD;&#x4F5C;&#xFF0C;&#x5C06; Pod &#x548C;&#x9009;&#x5B9A;&#x7684;&#x8282;&#x70B9;&#x5173;&#x8054;&#x8D77;&#x6765;&#x3002;</li>
+</ul>
+<p>Pod &#x8C03;&#x5EA6;&#x662F;&#x4E00;&#x4E2A;&#x590D;&#x6742;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x5B83;&#x6D89;&#x53CA;&#x5230;&#x591A;&#x79CD;&#x4E0D;&#x540C;&#x7684;&#x7B56;&#x7565;&#x548C;&#x7B97;&#x6CD5;&#x3002;&#x4E86;&#x89E3;&#x8FD9;&#x4E9B;&#x6982;&#x5FF5;&#x6709;&#x52A9;&#x4E8E;&#x4F18;&#x5316; Pod &#x7684;&#x8C03;&#x5EA6;&#x7B56;&#x7565;&#xFF0C;&#x4F7F;&#x5F97; Kubernetes &#x96C6;&#x7FA4;&#x80FD;&#x591F;&#x66F4;&#x9AD8;&#x6548;&#x3001;&#x7A33;&#x5B9A;&#x5730;&#x8FD0;&#x884C;&#x3002;</p>
+<p>&#x4EE5;&#x4E0B;&#x4E09;&#x79CD;&#x662F;&#x6BD4;&#x8F83;&#x5E38;&#x7528;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x914D;&#x7F6E;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#x4E09;&#x79CD;&#x8C03;&#x5EA6;&#x7B97;&#x6CD5;&#xFF0C;&#x6240;&#x4EE5;&#x5355;&#x72EC;&#x62FF;&#x6765;&#x8BB2;&#x3002;</p>
+<h2 id="1&#x8282;&#x70B9;&#x9009;&#x62E9;&#x5668;">1.&#x8282;&#x70B9;&#x9009;&#x62E9;&#x5668;</h2>
+<p><code>nodeSelector</code> &#x662F; Kubernetes &#x4E2D;&#x7528;&#x4E8E;&#x5C06; Pods &#x8C03;&#x5EA6;&#x5230;&#x7279;&#x5B9A;&#x8282;&#x70B9;&#x7684;&#x6700;&#x7B80;&#x5355;&#x7684; Pod &#x8C03;&#x5EA6;&#x7EA6;&#x675F;&#x4E4B;&#x4E00;&#x3002;&#x901A;&#x8FC7;&#x4E3A; Pod &#x6307;&#x5B9A; <code>nodeSelector</code>&#xFF0C;&#x60A8;&#x53EF;&#x4EE5;&#x786E;&#x4FDD; Pod &#x53EA;&#x4F1A;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x90A3;&#x4E9B;&#x6807;&#x7B7E;&#x4E0E; <code>nodeSelector</code> &#x4E2D;&#x6307;&#x5B9A;&#x7684;&#x6807;&#x7B7E;&#x5339;&#x914D;&#x7684;&#x8282;&#x70B9;&#x4E0A;&#x3002;</p>
+<p>&#x60A8;&#x9700;&#x8981;&#x7528;&#x6807;&#x7B7E;&#x660E;&#x786E;&#x6807;&#x8BB0;&#x8282;&#x70B9;&#xFF0C;&#x5E76;&#x5728; Pod &#x7684;&#x914D;&#x7F6E;&#x4E2D;&#x6307;&#x5B9A; <code>nodeSelector</code>&#x3002;&#x4EE5;&#x4E0B;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<h3 id="&#x6807;&#x8BB0;&#x8282;&#x70B9;">&#x6807;&#x8BB0;&#x8282;&#x70B9;</h3>
+<p>&#x9996;&#x5148;&#xFF0C;&#x7ED9;&#x60F3;&#x8981;&#x8C03;&#x5EA6; Pod &#x7684;&#x8282;&#x70B9;&#x6253;&#x4E0A;&#x6807;&#x7B7E;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5982;&#x679C;&#x60A8;&#x60F3;&#x8981;&#x5C06;&#x67D0;&#x4E9B; Pods &#x53EA;&#x8C03;&#x5EA6;&#x5230;&#x5177;&#x6709;&#x7279;&#x5B9A;&#x786C;&#x4EF6;&#x7684;&#x8282;&#x70B9;&#x4E0A;&#xFF0C;&#x60A8;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x7ED9;&#x8282;&#x70B9;&#x6253;&#x4E0A;&#x6807;&#x7B7E;&#xFF1A;</p>
+<pre><code class="lang-shell">kubectl label nodes &lt;node-name&gt; hardware-type=high-memory
+</code></pre>
+<p>&#x8FD9;&#x91CC; <code>&lt;node-name&gt;</code> &#x662F;&#x8282;&#x70B9;&#x7684;&#x540D;&#x79F0;&#xFF0C;<code>hardware-type=high-memory</code> &#x662F;&#x60A8;&#x6DFB;&#x52A0;&#x7684;&#x6807;&#x7B7E;&#x3002;</p>
+<h3 id="&#x4F7F;&#x7528;-nodeselector">&#x4F7F;&#x7528; <code>nodeSelector</code></h3>
+<p>&#x63A5;&#x4E0B;&#x6765;&#xFF0C;&#x5728; Pod &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x8BBE;&#x7F6E; <code>nodeSelector</code>&#xFF1A;</p>
+<pre><code class="lang-yaml"><span class="hljs-attr">apiVersion:</span> v1
+<span class="hljs-attr">kind:</span> Pod
+<span class="hljs-attr">metadata:</span>
+<span class="hljs-attr">  name:</span> mypod
+<span class="hljs-attr">spec:</span>
+<span class="hljs-attr">  containers:</span>
+<span class="hljs-attr">  - name:</span> mycontainer
+<span class="hljs-attr">    image:</span> myimage
+<span class="hljs-attr">  nodeSelector:</span>
+<span class="hljs-attr">    hardware-type:</span> high-memory
+</code></pre>
+<p>&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x53EA;&#x6709;&#x88AB;&#x6807;&#x8BB0;&#x4E3A; <code>hardware-type=high-memory</code> &#x7684;&#x8282;&#x70B9;&#x624D;&#x4F1A;&#x88AB;&#x8003;&#x8651;&#x7528;&#x6765;&#x8C03;&#x5EA6; <code>mypod</code>&#x3002;</p>
+<p>&#x5F53; Kubernetes &#x5C1D;&#x8BD5;&#x8C03;&#x5EA6; <code>mypod</code> &#x65F6;&#xFF0C;&#x8C03;&#x5EA6;&#x5668;&#x4F1A;&#x68C0;&#x67E5;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x8282;&#x70B9;&#x5E76;&#x627E;&#x5230;&#x7B26;&#x5408; <code>nodeSelector</code> &#x6761;&#x4EF6;&#x7684;&#x8282;&#x70B9;&#x3002;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x8282;&#x70B9;&#x5339;&#x914D;&#x8BE5;&#x9009;&#x62E9;&#x5668;&#xFF0C;Pod &#x5C06;&#x4F1A;&#x5904;&#x4E8E;&#x672A;&#x8C03;&#x5EA6;&#x72B6;&#x6001;&#xFF0C;&#x76F4;&#x5230;&#x6709;&#x7B26;&#x5408;&#x6761;&#x4EF6;&#x7684;&#x8282;&#x70B9;&#x53EF;&#x7528;&#x3002;</p>
+<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;<code>nodeSelector</code> &#x4EC5;&#x63D0;&#x4F9B;&#x4E86;&#x6700;&#x7B80;&#x5355;&#x7684;&#x8282;&#x70B9;&#x9009;&#x62E9;&#x529F;&#x80FD;&#x3002;&#x5BF9;&#x4E8E;&#x66F4;&#x590D;&#x6742;&#x7684;&#x8282;&#x70B9;&#x9009;&#x62E9;&#xFF0C;&#x60A8;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x66F4;&#x5148;&#x8FDB;&#x7684;&#x7279;&#x6027;&#xFF0C;&#x5982;&#x8282;&#x70B9;&#x4EB2;&#x548C;&#x6027;&#xFF08;Node Affinity&#xFF09;&#x548C;&#x8282;&#x70B9;&#x53CD;&#x4EB2;&#x548C;&#x6027;&#xFF08;Node Anti-Affinity&#xFF09;&#xFF0C;&#x8FD9;&#x4E9B;&#x529F;&#x80FD;&#x63D0;&#x4F9B;&#x4E86;&#x66F4;&#x7EC6;&#x7C92;&#x5EA6;&#x7684;&#x63A7;&#x5236;&#x548C;&#x66F4;&#x591A;&#x7684;&#x9009;&#x9879;&#x6765;&#x6307;&#x5B9A;&#x54EA;&#x4E9B;&#x8282;&#x70B9;&#x662F;&#x53EF;&#x63A5;&#x53D7;&#x7684;&#x6216;&#x4E0D;&#x53EF;&#x63A5;&#x53D7;&#x7684;&#x3002;</p>
+<h2 id="2&#x6C61;&#x70B9;&#x548C;&#x5BB9;&#x5FCD;">2.&#x6C61;&#x70B9;&#x548C;&#x5BB9;&#x5FCD;</h2>
+<p>&#x6C61;&#x70B9;&#xFF08;Taints&#xFF09;&#x662F; Kubernetes &#x4E2D;&#x5E94;&#x7528;&#x4E8E;&#x8282;&#x70B9;&#x7684;&#x4E00;&#x79CD;&#x673A;&#x5236;&#xFF0C;&#x7528;&#x4E8E;&#x963B;&#x6B62;&#x67D0;&#x4E9B; Pods &#x4E0D;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x8FD9;&#x4E9B;&#x8282;&#x70B9;&#x4E0A;&#xFF0C;&#x9664;&#x975E;&#x90A3;&#x4E9B; Pods &#x660E;&#x786E;&#x8868;&#x793A;&#x53EF;&#x4EE5;&#x5BB9;&#x5FCD;&#x6C61;&#x70B9;&#x7684;&#x5B58;&#x5728;&#x3002;&#x6C61;&#x70B9;&#x53EF;&#x4EE5;&#x662F;&#x4E34;&#x65F6;&#x6027;&#x7684;&#x6216;&#x6C38;&#x4E45;&#x6027;&#x7684;&#xFF0C;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x63A7;&#x5236;&#x8282;&#x70B9;&#x5E94;&#x8BE5;&#x63A5;&#x53D7;&#x54EA;&#x4E9B; Pods&#x3002;</p>
+<p>&#x6C61;&#x70B9;&#x7531;&#x4E09;&#x4E2A;&#x90E8;&#x5206;&#x7EC4;&#x6210;&#xFF1A;&#x952E;&#xFF08;key&#xFF09;&#x3001;&#x503C;&#xFF08;value&#xFF09;&#x548C;&#x6548;&#x679C;&#xFF08;effect&#xFF09;&#x3002;&#x952E;&#x548C;&#x503C;&#x662F;&#x7531;&#x7528;&#x6237;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#xFF0C;&#x5B83;&#x4EEC;&#x7528;&#x4E8E;&#x6807;&#x8BC6;&#x6C61;&#x70B9;&#xFF0C;&#x800C;&#x6548;&#x679C;&#x5219;&#x544A;&#x8BC9;&#x8C03;&#x5EA6;&#x5668;&#x5982;&#x4F55;&#x4E0E;&#x6709;&#x8FD9;&#x4E2A;&#x6C61;&#x70B9;&#x7684;&#x8282;&#x70B9;&#x4E92;&#x52A8;&#x3002;Kubernetes &#x652F;&#x6301;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x6C61;&#x70B9;&#x6548;&#x679C;&#xFF1A;</p>
+<ol>
+<li><code>NoSchedule</code>&#xFF1A;&#x6709;&#x8FD9;&#x4E2A;&#x6C61;&#x70B9;&#x7684;&#x8282;&#x70B9;&#x4E0D;&#x4F1A;&#x8C03;&#x5EA6;&#x65B0;&#x7684; Pods&#xFF0C;&#x9664;&#x975E;&#x8FD9;&#x4E9B; Pods &#x6709;&#x5339;&#x914D;&#x7684;&#x5BB9;&#x5FCD;&#x5EA6;&#xFF08;Toleration&#xFF09;&#x3002;&#x5DF2;&#x7ECF;&#x5728;&#x8282;&#x70B9;&#x4E0A;&#x8FD0;&#x884C;&#x7684; Pods &#x4E0D;&#x4F1A;&#x53D7;&#x5230;&#x5F71;&#x54CD;&#x3002;</li>
+<li><code>PreferNoSchedule</code>&#xFF1A;Kubernetes &#x5C06;&#x5C3D;&#x529B;&#x907F;&#x514D;&#x5C06; Pods &#x8C03;&#x5EA6;&#x5230;&#x6709;&#x8FD9;&#x4E2A;&#x6C61;&#x70B9;&#x7684;&#x8282;&#x70B9;&#xFF0C;&#x4F46;&#x8FD9;&#x4E0D;&#x662F;&#x5F3A;&#x5236;&#x6027;&#x7684;&#x3002;</li>
+<li><code>NoExecute</code>&#xFF1A;&#x4E0D;&#x4EC5;&#x65B0; Pods &#x4E0D;&#x4F1A;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x8282;&#x70B9;&#x4E0A;&#xFF0C;&#x4E14;&#x5DF2;&#x7ECF;&#x5728;&#x8282;&#x70B9;&#x4E0A;&#x8FD0;&#x884C;&#x7684; Pods &#x5982;&#x679C;&#x4E0D;&#x9002;&#x914D;&#x5BB9;&#x5FCD;&#x5EA6;&#xFF0C;&#x5C06;&#x88AB;&#x9A71;&#x9010;&#xFF08;&#x5982;&#x679C;&#x5B83;&#x4EEC;&#x4E0D;&#x5339;&#x914D;&#x6C61;&#x70B9;&#x7684;&#x5BB9;&#x5FCD;&#x5EA6;&#xFF09;&#x3002;</li>
+</ol>
+<p>&#x8981;&#x7ED9;&#x8282;&#x70B9;&#x6DFB;&#x52A0;&#x6C61;&#x70B9;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>kubectl taint</code> &#x547D;&#x4EE4;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-shell">kubectl taint nodes node1 key1=value1:NoSchedule
+</code></pre>
+<p>&#x5220;&#x9664;&#x6C61;&#x70B9;&#x547D;&#x4EE4;</p>
+<pre><code>kubectl taint nodes node1 key1:NoSchedule-
+#&#x4E0D;&#x9700;&#x8981;&#x77E5;&#x9053;&#x6C61;&#x70B9;&#x6548;&#x679C;&#x4E5F;&#x53EF;&#x4EE5;&#x5C71;&#x98CE;&#x5439;
+kubectl taint nodes node1 key1-
+</code></pre><p>&#x8FD9;&#x91CC; <code>node1</code> &#x662F;&#x8282;&#x70B9;&#x540D;&#x79F0;&#xFF0C;<code>key1=value1</code> &#x662F;&#x952E;-&#x503C;&#x5BF9;&#xFF0C;<code>NoSchedule</code> &#x662F;&#x6C61;&#x70B9;&#x7684;&#x6548;&#x679C;&#x3002;</p>
+<p>&#x5BF9;&#x5E94;&#x6C61;&#x70B9;&#xFF0C;Pods &#x9700;&#x8981;&#x6709;&#x5339;&#x914D;&#x7684;&#x5BB9;&#x5FCD;&#x5EA6;&#x624D;&#x80FD;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x6709;&#x6C61;&#x70B9;&#x7684;&#x8282;&#x70B9;&#x3002;&#x5BB9;&#x5FCD;&#x5EA6;&#x88AB;&#x5B9A;&#x4E49;&#x5728; Pod &#x7684;&#x89C4;&#x683C;&#x4E2D;&#xFF0C;&#x5141;&#x8BB8; Pod &#x8C03;&#x5EA6;&#x5230;&#x5E26;&#x6709;&#x7279;&#x5B9A;&#x6C61;&#x70B9;&#x7684;&#x8282;&#x70B9;&#x3002;&#x4F7F;&#x7528;&#x5BB9;&#x5FCD;&#x5EA6;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x66F4;&#x7EC6;&#x7C92;&#x5EA6;&#x7684;&#x63A7;&#x5236;&#xFF0C;&#x6BD4;&#x5982;&#x5C06;&#x67D0;&#x4E9B; Pod &#x8C03;&#x5EA6;&#x5230;&#x4E13;&#x7528;&#x786C;&#x4EF6;&#x4E0A;&#x6216;&#x8005;&#x4E0E;&#x67D0;&#x4E9B;&#x7279;&#x5B9A;&#x7684;&#x670D;&#x52A1;&#x4E00;&#x8D77;&#x8FD0;&#x884C;&#x7684;&#x8282;&#x70B9;&#x3002;</p>
+<p>&#x4F8B;&#x5982;&#xFF0C;&#x4E00;&#x4E2A; Pod &#x7684;&#x5B9A;&#x4E49;&#x53EF;&#x80FD;&#x5305;&#x62EC;&#x4EE5;&#x4E0B;&#x5BB9;&#x5FCD;&#x5EA6;&#xFF1A;</p>
+<pre><code class="lang-yaml"><span class="hljs-attr">tolerations:</span>
+<span class="hljs-attr">- key:</span> <span class="hljs-string">&quot;key1&quot;</span>
+<span class="hljs-attr">  operator:</span> <span class="hljs-string">&quot;Equal&quot;</span>
+<span class="hljs-attr">  value:</span> <span class="hljs-string">&quot;value1&quot;</span>
+<span class="hljs-attr">  effect:</span> <span class="hljs-string">&quot;NoSchedule&quot;</span>
+</code></pre>
+<p>&#x8FD9;&#x4E2A;&#x5BB9;&#x5FCD;&#x5EA6;&#x8868;&#x660E;&#x8BE5; Pod &#x53EF;&#x4EE5;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x5177;&#x6709; <code>key1=value1:NoSchedule</code> &#x6C61;&#x70B9;&#x7684;&#x8282;&#x70B9;&#x4E0A;&#x3002;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x6307;&#x5B9A; <code>effect</code>&#xFF0C;&#x5219;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x8FD9;&#x4E2A;&#x5BB9;&#x5FCD;&#x5EA6;&#x9002;&#x7528;&#x4E8E;&#x6240;&#x6709;&#x4E09;&#x79CD;&#x6548;&#x679C;&#x7684;&#x6C61;&#x70B9;&#x3002;</p>
+<p>&#x4F7F;&#x7528;&#x6C61;&#x70B9;&#x548C;&#x5BB9;&#x5FCD;&#x5EA6;&#x662F; Kubernetes &#x4E2D;&#x8282;&#x70B9;&#x4EB2;&#x548C;&#x6027;&#x8C03;&#x5EA6;&#x7684;&#x9AD8;&#x7EA7;&#x7279;&#x6027;&#xFF0C;&#x5B83;&#x4EEC;&#x53EF;&#x4EE5;&#x5E2E;&#x52A9;&#x96C6;&#x7FA4;&#x7BA1;&#x7406;&#x5458;&#x66F4;&#x597D;&#x5730;&#x63A7;&#x5236;&#x548C;&#x9694;&#x79BB;&#x5DE5;&#x4F5C;&#x8D1F;&#x8F7D;&#x3002;</p>
+<p><strong>&#x5728;master&#x9ED8;&#x8BA4;&#x5C31;&#x6709;&#x6C61;&#x70B9;&#xFF0C;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#x666E;&#x901A;&#x4E1A;&#x52A1;pod&#x90FD;&#x65E0;&#x6CD5;&#x8C03;&#x5EA6;&#x5230;master&#x4E0A;&#x9762;&#x3002;</strong></p>
+<p><img src=".scheduler/image-20231128170347459.png" alt="image-20231128170347459"></p>
+<h2 id="3&#x4EB2;&#x548C;&#x6027;&#x548C;&#x53CD;&#x4EB2;&#x548C;&#x6027;">3.&#x4EB2;&#x548C;&#x6027;&#x548C;&#x53CD;&#x4EB2;&#x548C;&#x6027;</h2>
+<p>&#x5728; Kubernetes &#x4E2D;&#xFF0C;&#x4EB2;&#x548C;&#x6027;&#xFF08;Affinity&#xFF09;&#x548C;&#x53CD;&#x4EB2;&#x548C;&#x6027;&#xFF08;Anti-affinity&#xFF09;&#x662F;&#x9AD8;&#x7EA7;&#x7684;&#x8C03;&#x5EA6;&#x7279;&#x6027;&#xFF0C;&#x5B83;&#x4EEC;&#x5141;&#x8BB8;&#x4F60;&#x8BBE;&#x7F6E;&#x89C4;&#x5219;&#xFF0C;&#x8FD9;&#x4E9B;&#x89C4;&#x5219;&#x53EF;&#x4EE5;&#x5728;&#x8C03;&#x5EA6; Pod &#x65F6;&#xFF0C;&#x8BE6;&#x7EC6;&#x5730;&#x63A7;&#x5236; Pod &#x5E94;&#x8BE5;&#x8FD0;&#x884C;&#x5728;&#x54EA;&#x4E9B;&#x8282;&#x70B9;&#x4E0A;&#x3002;&#x8FD9;&#x4E9B;&#x89C4;&#x5219;&#x6BD4;&#x4F20;&#x7EDF;&#x7684; <code>nodeSelector</code> &#x63D0;&#x4F9B;&#x4E86;&#x66F4;&#x591A;&#x7684;&#x7075;&#x6D3B;&#x6027;&#x548C;&#x63A7;&#x5236;&#x80FD;&#x529B;&#x3002;</p>
+<p>&#x4EB2;&#x548C;&#x6027;&#x548C;&#x53CD;&#x4EB2;&#x548C;&#x6027;&#x5177;&#x4F53;&#x5206;&#x4E3A;&#x4E24;&#x79CD;&#x7C7B;&#x578B;&#xFF1A;</p>
+<ol>
+<li><p>&#x8282;&#x70B9;&#x4EB2;&#x548C;&#x6027;&#xFF08;Node Affinity&#xFF09;&#xFF1A;&#x5141;&#x8BB8;&#x4F60;&#x6307;&#x5B9A; Pod &#x5E94;&#x8BE5;&#x8FD0;&#x884C;&#x5728;&#x5177;&#x6709;&#x7279;&#x5B9A;&#x6807;&#x7B7E;&#xFF08;Labels&#xFF09;&#x7684;&#x8282;&#x70B9;&#x4E0A;&#x3002;&#x8282;&#x70B9;&#x4EB2;&#x548C;&#x6027;&#x89C4;&#x5219;&#x6709;&#x4E24;&#x79CD;&#x7C7B;&#x578B;&#xFF1A;</p>
+<ul>
+<li><p>&#x5FC5;&#x9700;&#x89C4;&#x5219;&#xFF08;requiredDuringSchedulingIgnoredDuringExecution&#xFF09;&#xFF1A;Pod &#x5FC5;&#x987B;&#x6EE1;&#x8DB3;&#x8FD9;&#x4E9B;&#x89C4;&#x5219;&#x624D;&#x80FD;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x7279;&#x5B9A;&#x8282;&#x70B9;&#x3002;</p>
+</li>
+<li><p>&#x504F;&#x597D;&#x89C4;&#x5219;&#xFF08;preferredDuringSchedulingIgnoredDuringExecution&#xFF09;&#xFF1A;&#x8C03;&#x5EA6;&#x5668;&#x4F1A;&#x5C3D;&#x91CF;&#x6EE1;&#x8DB3;&#x8FD9;&#x4E9B;&#x89C4;&#x5219;&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x4E0D;&#x80FD;&#x6EE1;&#x8DB3;&#xFF0C;Pod &#x4ECD;&#x7136;&#x53EF;&#x4EE5;&#x88AB;&#x8C03;&#x5EA6;&#x3002;</p>
+<h3 id="&#x793A;&#x4F8B;-1-&#x5F3A;&#x5236;&#x6027;-nodeaffinity">&#x793A;&#x4F8B; 1: &#x5F3A;&#x5236;&#x6027; nodeAffinity</h3>
+<p>&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#x6211;&#x4EEC;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A; Pod&#xFF0C;&#x5B83;&#x4F7F;&#x7528; nodeAffinity &#x89C4;&#x5219;&#x6765;&#x786E;&#x4FDD;&#x5B83;&#x53EA;&#x80FD;&#x5728;&#x5177;&#x6709;&#x7279;&#x5B9A;&#x6807;&#x7B7E;&#x7684;&#x8282;&#x70B9;&#x4E0A;&#x8FD0;&#x884C;&#x3002;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x786C;&#x6027;&#x7684;&#x7EA6;&#x675F;&#xFF0C;&#x610F;&#x5473;&#x7740;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x7684;&#x8282;&#x70B9;&#xFF0C;Pod &#x5C06;&#x4E0D;&#x4F1A;&#x88AB;&#x8C03;&#x5EA6;&#x3002;</p>
+<pre><code class="lang-yaml"><span class="hljs-attr">apiVersion:</span> v1
+<span class="hljs-attr">kind:</span> Pod
+<span class="hljs-attr">metadata:</span>
+<span class="hljs-attr">  name:</span> with-required-node-affinity
+<span class="hljs-attr">spec:</span>
+<span class="hljs-attr">  affinity:</span>
+<span class="hljs-attr">    nodeAffinity:</span>
+<span class="hljs-attr">      requiredDuringSchedulingIgnoredDuringExecution:</span>
+<span class="hljs-attr">        nodeSelectorTerms:</span>
+<span class="hljs-attr">        - matchExpressions:</span>
+<span class="hljs-attr">          - key:</span> disktype
+<span class="hljs-attr">            operator:</span> In
+<span class="hljs-attr">            values:</span>
+<span class="hljs-bullet">            -</span> ssd
+<span class="hljs-attr">  containers:</span>
+<span class="hljs-attr">  - name:</span> with-required-node-affinity
+<span class="hljs-attr">    image:</span> nginx
+</code></pre>
+<p>&#x5728;&#x4E0A;&#x9762;&#x7684;&#x914D;&#x7F6E;&#x4E2D;&#xFF0C;<code>nodeSelectorTerms</code> &#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A; <code>matchExpressions</code>&#xFF0C;&#x5B83;&#x8981;&#x6C42;&#x8282;&#x70B9;&#x5FC5;&#x987B;&#x6709;&#x4E00;&#x4E2A;&#x6807;&#x7B7E; <code>disktype</code> &#x7684;&#x503C;&#x4E3A; <code>ssd</code>&#xFF0C;Pod &#x624D;&#x80FD;&#x5728;&#x8BE5;&#x8282;&#x70B9;&#x4E0A;&#x8FD0;&#x884C;&#x3002;</p>
+<h3 id="&#x793A;&#x4F8B;-2-&#x4F18;&#x9009;-nodeaffinity">&#x793A;&#x4F8B; 2: &#x4F18;&#x9009; nodeAffinity</h3>
+<p>&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#x7684;&#x914D;&#x7F6E;&#x6F14;&#x793A;&#x4E86;&#x4E00;&#x4E2A; Pod&#xFF0C;&#x5B83;&#x4F7F;&#x7528; nodeAffinity &#x7684;&#x4F18;&#x9009;&#x89C4;&#x5219;&#xFF0C;&#x6307;&#x793A;&#x8C03;&#x5EA6;&#x5668;&#x66F4;&#x503E;&#x5411;&#x4E8E;&#x5728;&#x7B26;&#x5408;&#x7279;&#x5B9A;&#x6807;&#x7B7E;&#x7684;&#x8282;&#x70B9;&#x4E0A;&#x8C03;&#x5EA6; Pod&#x3002;&#x8FD9;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x5F3A;&#x5236;&#x6027;&#x7684;&#x7EA6;&#x675F;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x7684;&#x8282;&#x70B9;&#xFF0C;Pod &#x4ECD;&#x7136;&#x4F1A;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x5176;&#x4ED6;&#x53EF;&#x7528;&#x8282;&#x70B9;&#x4E0A;&#x3002;</p>
+<pre><code class="lang-yaml"><span class="hljs-attr">apiVersion:</span> v1
+<span class="hljs-attr">kind:</span> Pod
+<span class="hljs-attr">metadata:</span>
+<span class="hljs-attr">  name:</span> with-preferred-node-affinity
+<span class="hljs-attr">spec:</span>
+<span class="hljs-attr">  affinity:</span>
+<span class="hljs-attr">    nodeAffinity:</span>
+<span class="hljs-attr">      preferredDuringSchedulingIgnoredDuringExecution:</span>
+<span class="hljs-attr">      - weight:</span> <span class="hljs-number">1</span>
+<span class="hljs-attr">        preference:</span>
+<span class="hljs-attr">          matchExpressions:</span>
+<span class="hljs-attr">          - key:</span> disktype
+<span class="hljs-attr">            operator:</span> In
+<span class="hljs-attr">            values:</span>
+<span class="hljs-bullet">            -</span> ssd
+<span class="hljs-attr">  containers:</span>
+<span class="hljs-attr">  - name:</span> with-preferred-node-affinity
+<span class="hljs-attr">    image:</span> nginx
+</code></pre>
+<p>&#x5728;&#x4E0A;&#x9762;&#x7684;&#x914D;&#x7F6E;&#x4E2D;&#xFF0C;<code>weight</code> &#x662F;&#x4E00;&#x4E2A;&#x4ECB;&#x4E8E; 1 &#x5230; 100 &#x7684;&#x503C;&#xFF0C;&#x8868;&#x793A;&#x8FD9;&#x4E2A;&#x4F18;&#x5148;&#x7EA7;&#x89C4;&#x5219;&#x7684;&#x76F8;&#x5BF9;&#x6743;&#x91CD;&#x3002;<code>preference</code> &#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A; <code>matchExpressions</code> &#x6761;&#x4EF6;&#xFF0C;&#x8FD9;&#x91CC;&#x610F;&#x5473;&#x7740;&#x8C03;&#x5EA6;&#x5668;&#x4F1A;&#x5C3D;&#x91CF;&#x628A; Pod &#x8C03;&#x5EA6;&#x5230;&#x6709;&#x4E00;&#x4E2A;&#x6807;&#x7B7E; <code>disktype</code> &#x7684;&#x503C;&#x4E3A; <code>ssd</code> &#x7684;&#x8282;&#x70B9;&#x4E0A;&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x8FD9;&#x6837;&#x7684;&#x8282;&#x70B9;&#x4E0D;&#x53EF;&#x7528;&#xFF0C;Pod &#x4E5F;&#x53EF;&#x4EE5;&#x8C03;&#x5EA6;&#x5230;&#x5176;&#x4ED6;&#x8282;&#x70B9;&#x4E0A;&#x3002;</p>
+<p>&#x8FD9;&#x4E24;&#x4E2A;&#x4F8B;&#x5B50;&#x5C55;&#x793A;&#x4E86;&#x5982;&#x4F55;&#x4F7F;&#x7528; Node &#x4EB2;&#x548C;&#x6027;&#x6765;&#x5F71;&#x54CD; Kubernetes &#x4E2D; Pod &#x7684;&#x8C03;&#x5EA6;&#x51B3;&#x7B56;&#x3002;&#x901A;&#x8FC7; Node &#x4EB2;&#x548C;&#x6027;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x66F4;&#x597D;&#x5730;&#x63A7;&#x5236; Pod &#x5E94;&#x8BE5;&#x8FD0;&#x884C;&#x5728;&#x54EA;&#x4E9B;&#x8282;&#x70B9;&#x4E0A;&#xFF0C;&#x4ECE;&#x800C;&#x4F18;&#x5316;&#x5E94;&#x7528;&#x6027;&#x80FD;&#x548C;&#x8D44;&#x6E90;&#x5229;&#x7528;&#x7387;&#x3002;</p>
+</li>
+</ul>
+</li>
+<li><p>Pod &#x4EB2;&#x548C;&#x6027;&#x548C;&#x53CD;&#x4EB2;&#x548C;&#x6027;&#xFF08;Pod Affinity and Anti-affinity&#xFF09;&#xFF1A;&#x5141;&#x8BB8;&#x4F60;&#x6307;&#x5B9A; Pod &#x5E94;&#x8BE5;&#x6216;&#x4E0D;&#x5E94;&#x8BE5;&#x4E0E;&#x5177;&#x6709;&#x7279;&#x5B9A;&#x6807;&#x7B7E;&#x7684;&#x5176;&#x4ED6; Pod &#x8FD0;&#x884C;&#x5728;&#x540C;&#x4E00;&#x8282;&#x70B9;&#x6216;&#x62D3;&#x6251;&#x57DF;&#xFF08;&#x5982;&#x5BBF;&#x4E3B;&#x673A;&#x3001;&#x673A;&#x67B6;&#x3001;&#x533A;&#x57DF;&#x3001;&#x6570;&#x636E;&#x4E2D;&#x5FC3;&#x7B49;&#xFF09;&#x4E0A;&#x3002;Pod &#x4EB2;&#x548C;&#x6027;&#x548C;&#x53CD;&#x4EB2;&#x548C;&#x6027;&#x540C;&#x6837;&#x5305;&#x62EC;&#x5FC5;&#x9700;&#x89C4;&#x5219;&#x548C;&#x504F;&#x597D;&#x89C4;&#x5219;&#x3002;</p>
+</li>
+</ol>
+<p>&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684; Pod &#x4EB2;&#x548C;&#x6027;&#x7684;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code class="lang-yaml"><span class="hljs-attr">apiVersion:</span> v1
+<span class="hljs-attr">kind:</span> Pod
+<span class="hljs-attr">metadata:</span>
+<span class="hljs-attr">  name:</span> with-pod-affinity
+<span class="hljs-attr">spec:</span>
+<span class="hljs-attr">  affinity:</span>
+<span class="hljs-attr">    podAffinity:</span>
+<span class="hljs-attr">      requiredDuringSchedulingIgnoredDuringExecution:</span>
+<span class="hljs-attr">      - labelSelector:</span>
+<span class="hljs-attr">          matchExpressions:</span>
+<span class="hljs-attr">          - key:</span> security
+<span class="hljs-attr">            operator:</span> In
+<span class="hljs-attr">            values:</span>
+<span class="hljs-bullet">            -</span> S1
+<span class="hljs-attr">        topologyKey:</span> kubernetes.io/hostname
+<span class="hljs-attr">  containers:</span>
+<span class="hljs-attr">  - name:</span> with-pod-affinity
+<span class="hljs-attr">    image:</span> nginx
+</code></pre>
+<p>&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;<code>requiredDuringSchedulingIgnoredDuringExecution</code> &#x8868;&#x793A; Pod &#x5FC5;&#x987B;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x6807;&#x7B7E; <code>security</code> &#x7684;&#x503C;&#x4E3A; <code>S1</code> &#x7684;&#x5176;&#x4ED6; Pod &#x6240;&#x5728;&#x7684;&#x8282;&#x70B9;&#x4E0A;&#x3002;</p>
+<ol>
+<li><p>&#x8FD9;&#x91CC;&#x662F;&#x4E00;&#x4E2A;&#x4F7F;&#x7528;&#x53CD;&#x4EB2;&#x548C;&#x6027;&#x7684; Kubernetes Pod &#x914D;&#x7F6E;&#x793A;&#x4F8B;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A; Pod&#xFF0C;&#x5B83;&#x4F7F;&#x7528;&#x53CD;&#x4EB2;&#x548C;&#x6027;&#x89C4;&#x5219;&#x786E;&#x4FDD;&#x5B83;&#x4E0D;&#x4F1A;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x8FD0;&#x884C;&#x4E86;&#x5177;&#x6709;&#x76F8;&#x540C;&#x6807;&#x7B7E; <code>app=web</code> &#x7684;&#x5176;&#x4ED6; Pod &#x7684;&#x540C;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x4E0A;&#x3002;</p>
+<p><strong>&#x7B80;&#x5355;&#x70B9;&#x8BF4;&#xFF0C;&#x6BD4;&#x5982;&#x4E00;&#x4E2A;&#x63A7;&#x5236;&#x5668;&#x5B9A;&#x4E49;&#x4E86;2&#x526F;&#x672C;&#xFF0C;&#x8FD9;2&#x4E2A;&#x526F;&#x672C;&#x5C06;&#x4E0D;&#x5141;&#x8BB8;&#x8C03;&#x5EA6;&#x5230;&#x540C;&#x4E00;&#x8282;&#x70B9;&#xFF0C;&#x4ECE;&#x800C;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x5B95;&#x673A;&#x5F71;&#x54CD;&#x6574;&#x4E2A;&#x4E1A;&#x52A1;&#x3002;</strong></p>
+<pre><code class="lang-yaml"><span class="hljs-attr">apiVersion:</span> v1
+<span class="hljs-attr">kind:</span> Pod
+<span class="hljs-attr">metadata:</span>
+<span class="hljs-attr">  name:</span> with-pod-anti-affinity
+<span class="hljs-attr">spec:</span>
+<span class="hljs-attr">  affinity:</span>
+<span class="hljs-attr">    podAntiAffinity:</span>
+<span class="hljs-attr">      requiredDuringSchedulingIgnoredDuringExecution:</span>
+<span class="hljs-attr">      - labelSelector:</span>
+<span class="hljs-attr">          matchExpressions:</span>
+<span class="hljs-attr">          - key:</span> app
+<span class="hljs-attr">            operator:</span> In
+<span class="hljs-attr">            values:</span>
+<span class="hljs-bullet">            -</span> web
+<span class="hljs-attr">        topologyKey:</span> kubernetes.io/hostname
+<span class="hljs-attr">  containers:</span>
+<span class="hljs-attr">  - name:</span> with-pod-anti-affinity
+<span class="hljs-attr">    image:</span> nginx
+</code></pre>
+<p>&#x5728;&#x8FD9;&#x4E2A;&#x914D;&#x7F6E;&#x4E2D;&#xFF0C;<code>requiredDuringSchedulingIgnoredDuringExecution</code>&#x610F;&#x5473;&#x7740;&#x8FD9;&#x4E2A;&#x53CD;&#x4EB2;&#x548C;&#x6027;&#x89C4;&#x5219;&#x5728;&#x8C03;&#x5EA6;&#x65F6;&#x5FC5;&#x987B;&#x88AB;&#x5F3A;&#x5236;&#x6EE1;&#x8DB3;&#x3002;<code>labelSelector</code>&#x7528;&#x4E8E;&#x9009;&#x62E9;&#x6807;&#x7B7E; <code>app</code> &#x7684;&#x503C;&#x4E3A; <code>web</code> &#x7684; Pod&#x3002;<code>topologyKey</code> &#x4E3A; <code>kubernetes.io/hostname</code> &#x8868;&#x660E; Pod &#x4E0D;&#x80FD;&#x548C;&#x6EE1;&#x8DB3;&#x9009;&#x62E9;&#x6761;&#x4EF6;&#x7684;&#x4EFB;&#x4F55;&#x5176;&#x4ED6; Pod &#x5728;&#x540C;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x4E0A;&#x8FD0;&#x884C;&#x3002;</p>
+<p>&#x53CD;&#x4EB2;&#x548C;&#x6027;&#x4E5F;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x4E3A;&#x504F;&#x597D;&#xFF08;<code>preferredDuringSchedulingIgnoredDuringExecution</code>&#xFF09;&#xFF0C;&#x8FD9;&#x6837;&#x5373;&#x4F7F;&#x65E0;&#x6CD5;&#x6EE1;&#x8DB3;&#x89C4;&#x5219;&#xFF0C;Pod &#x4E5F;&#x53EF;&#x4EE5;&#x88AB;&#x8C03;&#x5EA6;&#x5230;&#x540C;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x4E0A;&#xFF0C;&#x4F46;&#x8C03;&#x5EA6;&#x5668;&#x4F1A;&#x5C3D;&#x91CF;&#x907F;&#x514D;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x3002;</p>
+<p>&#x8FD8;&#x8981;&#x6CE8;&#x610F;&#xFF0C;&#x4EE5;&#x4E0A;&#x8BBE;&#x7F6E;&#x7684;&#x6743;&#x91CD;&#x548C;&#x786E;&#x5207;&#x884C;&#x4E3A;&#x53EF;&#x80FD;&#x4F1A;&#x6839;&#x636E;&#x4F60;&#x7684; Kubernetes &#x96C6;&#x7FA4;&#x7248;&#x672C;&#x548C;&#x914D;&#x7F6E;&#x800C;&#x6709;&#x6240;&#x4E0D;&#x540C;&#xFF0C;&#x4EE5;&#x53CA;&#x4F60;&#x662F;&#x5426;&#x4F7F;&#x7528;&#x4E86;&#x9ED8;&#x8BA4;&#x8C03;&#x5EA6;&#x7A0B;&#x5E8F;&#x6216;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x8C03;&#x5EA6;&#x7A0B;&#x5E8F;&#x3002;</p>
+</li>
+</ol>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="Deployment.html" class="navigation navigation-prev " aria-label="Previous page: 6.6. Deployment的介绍">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="Request&Limit.html" class="navigation navigation-next " aria-label="Next page: 6.8. Kubernetes的资源限制">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"6.7. Kubernetes的调度","level":"1.7.7","depth":2,"next":{"title":"6.8. Kubernetes的资源限制","level":"1.7.8","depth":2,"path":"Kubernetes/Request&Limit.md","ref":"Kubernetes/Request&Limit.md","articles":[]},"previous":{"title":"6.6. Deployment的介绍","level":"1.7.6","depth":2,"path":"Kubernetes/Deployment.md","ref":"Kubernetes/Deployment.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Kubernetes/Scheduler.md","mtime":"2023-11-28T09:11:30.848Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2023-12-01T09:23:21.802Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

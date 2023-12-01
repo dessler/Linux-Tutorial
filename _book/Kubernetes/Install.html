@@ -1,0 +1,901 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>6.2. Kubernetes安装 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Kubectl.html" />
+    
+    
+    <link rel="prev" href="Concept.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../Linux/">
+            
+                <a href="../Linux/">
+            
+                    
+                    1. Linux基础介绍
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../Linux/LinuxBase.html">
+            
+                <a href="../Linux/LinuxBase.html">
+            
+                    
+                    1.1. Linux基本介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../Linux/LinuxInstall.html">
+            
+                <a href="../Linux/LinuxInstall.html">
+            
+                    
+                    1.2. Linux系统安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../Linux/LinuxSSH.html">
+            
+                <a href="../Linux/LinuxSSH.html">
+            
+                    
+                    1.3. LinuxSSH连接
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../LinuxBasic/">
+            
+                <a href="../LinuxBasic/">
+            
+                    
+                    2. Linux基础操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../LinuxBasic/System.html">
+            
+                <a href="../LinuxBasic/System.html">
+            
+                    
+                    2.1. Linux系统操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../LinuxBasic/User.html">
+            
+                <a href="../LinuxBasic/User.html">
+            
+                    
+                    2.2. Linux用户操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../LinuxBasic/Permissions.html">
+            
+                <a href="../LinuxBasic/Permissions.html">
+            
+                    
+                    2.3. Linux权限操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../LinuxBasic/File.html">
+            
+                <a href="../LinuxBasic/File.html">
+            
+                    
+                    2.4. Linux文件操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../LinuxBasic/Soft.html">
+            
+                <a href="../LinuxBasic/Soft.html">
+            
+                    
+                    2.5. Linux软件操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../LinuxBasic/Network.html">
+            
+                <a href="../LinuxBasic/Network.html">
+            
+                    
+                    2.6. Linux网络操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../LinuxBasic/Safety.html">
+            
+                <a href="../LinuxBasic/Safety.html">
+            
+                    
+                    2.7. Linux安全操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../LinuxAdvanced/">
+            
+                <a href="../LinuxAdvanced/">
+            
+                    
+                    3. Linux进阶操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../LinuxAdvanced/Hostname.html">
+            
+                <a href="../LinuxAdvanced/Hostname.html">
+            
+                    
+                    3.1. Linux主机名
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../LinuxAdvanced/Env.html">
+            
+                <a href="../LinuxAdvanced/Env.html">
+            
+                    
+                    3.2. Linux环境变量
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../LinuxAdvanced/Mirrors.html">
+            
+                <a href="../LinuxAdvanced/Mirrors.html">
+            
+                    
+                    3.3. Linux的Yum源
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../LinuxAdvanced/Ntp.html">
+            
+                <a href="../LinuxAdvanced/Ntp.html">
+            
+                    
+                    3.4. Linux的NTP
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../LinuxAdvanced/Soft.md">
+            
+                <span>
+            
+                    
+                    3.5. Linux软件操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../LinuxAdvanced/Network.html">
+            
+                <a href="../LinuxAdvanced/Network.html">
+            
+                    
+                    3.6. Linux网络操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../LinuxAdvanced/Safety.md">
+            
+                <span>
+            
+                    
+                    3.7. Linux安全操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../Middleware/">
+            
+                <a href="../Middleware/">
+            
+                    
+                    4. 中间件
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../Middleware/RocketMQ.html">
+            
+                <a href="../Middleware/RocketMQ.html">
+            
+                    
+                    4.1. RocketMQ
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../Docker/">
+            
+                <a href="../Docker/">
+            
+                    
+                    5. Docker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    6. Kubernetes
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="Concept.html">
+            
+                <a href="Concept.html">
+            
+                    
+                    6.1. Kubernetes基本概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.7.2" data-path="Install.html">
+            
+                <a href="Install.html">
+            
+                    
+                    6.2. Kubernetes安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="Kubectl.html">
+            
+                <a href="Kubectl.html">
+            
+                    
+                    6.3. Kubectl命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="Pod.html">
+            
+                <a href="Pod.html">
+            
+                    
+                    6.4. Pod的介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5" data-path="PodStatus.html">
+            
+                <a href="PodStatus.html">
+            
+                    
+                    6.5. Pod的状态
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6" data-path="Deployment.html">
+            
+                <a href="Deployment.html">
+            
+                    
+                    6.6. Deployment的介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.7" data-path="Scheduler.html">
+            
+                <a href="Scheduler.html">
+            
+                    
+                    6.7. Kubernetes的调度
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.8" data-path="Request&Limit.html">
+            
+                <a href="Request&Limit.html">
+            
+                    
+                    6.8. Kubernetes的资源限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.9" data-path="HealthCheck.html">
+            
+                <a href="HealthCheck.html">
+            
+                    
+                    6.9. Kubernetes的健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.10" data-path="Service.html">
+            
+                <a href="Service.html">
+            
+                    
+                    6.10. Kubernetes的服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.11" data-path="Ingress.html">
+            
+                <a href="Ingress.html">
+            
+                    
+                    6.11. Kubernetes的Ingress
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.12" data-path="Helm.html">
+            
+                <a href="Helm.html">
+            
+                    
+                    6.12. Kubernetes的Helm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.13" data-path="PV&PVC.html">
+            
+                <a href="PV&PVC.html">
+            
+                    
+                    6.13. Kubernetes的存储
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >6.2. Kubernetes安装</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="kubernetes&#x7684;&#x5B89;&#x88C5;">Kubernetes&#x7684;&#x5B89;&#x88C5;</h1>
+<p>Kubernetes&#x63D0;&#x4F9B;&#x4E86;&#x591A;&#x79CD;&#x5B89;&#x88C5;&#x65B9;&#x5F0F;&#xFF0C;&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x4F60;&#x7684;&#x9700;&#x6C42;&#x548C;&#x5B9E;&#x9645;&#x60C5;&#x51B5;&#x9009;&#x62E9;&#x5408;&#x9002;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x4EE5;&#x4E0B;&#x662F;&#x51E0;&#x79CD;&#x5E38;&#x89C1;&#x7684;&#x5B89;&#x88C5;&#x65B9;&#x5F0F;&#xFF1A;</p>
+<ol>
+<li>kubeadm&#x5B89;&#x88C5;&#x65B9;&#x5F0F;&#xFF1A;<ul>
+<li>&#x4F7F;&#x7528;kubeadm&#x5DE5;&#x5177;&#x8FDB;&#x884C;&#x5FEB;&#x901F;&#x5B89;&#x88C5;&#x548C;&#x914D;&#x7F6E;Kubernetes&#x96C6;&#x7FA4;&#x3002;</li>
+<li>&#x9002;&#x7528;&#x4E8E;&#x6D4B;&#x8BD5;&#x548C;&#x5F00;&#x53D1;&#x73AF;&#x5883;&#xFF0C;&#x4EE5;&#x53CA;&#x5C0F;&#x578B;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x3002;</li>
+<li>&#x9700;&#x8981;&#x624B;&#x52A8;&#x5B89;&#x88C5;&#x548C;&#x914D;&#x7F6E;&#x4E00;&#x4E9B;&#x5FC5;&#x8981;&#x7684;&#x7EC4;&#x4EF6;&#x548C;&#x63D2;&#x4EF6;&#xFF0C;&#x5982;&#x7F51;&#x7EDC;&#x63D2;&#x4EF6;&#x3002;</li>
+<li>&#x53EF;&#x4EE5;&#x901A;&#x8FC7;kubeadm init&#x548C;kubeadm join&#x547D;&#x4EE4;&#x521D;&#x59CB;&#x5316;&#x548C;&#x52A0;&#x5165;&#x8282;&#x70B9;&#x3002;</li>
+</ul>
+</li>
+<li>kops&#x5B89;&#x88C5;&#x65B9;&#x5F0F;&#xFF1A;<ul>
+<li>&#x4F7F;&#x7528;kops&#x5DE5;&#x5177;&#x5728;&#x4E91;&#x5E73;&#x53F0;&#x4E0A;&#xFF08;&#x5982;AWS&#x3001;GCP&#xFF09;&#x5FEB;&#x901F;&#x521B;&#x5EFA;&#x548C;&#x7BA1;&#x7406;Kubernetes&#x96C6;&#x7FA4;&#x3002;</li>
+<li>&#x63D0;&#x4F9B;&#x81EA;&#x52A8;&#x5316;&#x7684;&#x96C6;&#x7FA4;&#x751F;&#x547D;&#x5468;&#x671F;&#x7BA1;&#x7406;&#x529F;&#x80FD;&#xFF0C;&#x5982;&#x521B;&#x5EFA;&#x3001;&#x66F4;&#x65B0;&#x548C;&#x5220;&#x9664;&#x96C6;&#x7FA4;&#x3002;</li>
+<li>&#x9700;&#x8981;&#x8FDB;&#x884C;&#x4E00;&#x4E9B;&#x914D;&#x7F6E;&#x548C;&#x51C6;&#x5907;&#x5DE5;&#x4F5C;&#xFF0C;&#x5982;&#x8BBE;&#x7F6E;DNS&#x3001;&#x521B;&#x5EFA;SSH&#x5BC6;&#x94A5;&#x7B49;&#x3002;</li>
+<li>&#x53EF;&#x4EE5;&#x901A;&#x8FC7;kops create cluster&#x548C;kops update cluster&#x7B49;&#x547D;&#x4EE4;&#x6765;&#x521B;&#x5EFA;&#x548C;&#x66F4;&#x65B0;&#x96C6;&#x7FA4;&#x3002;</li>
+</ul>
+</li>
+<li>kubespray&#x5B89;&#x88C5;&#x65B9;&#x5F0F;&#xFF1A;<ul>
+<li>&#x4F7F;&#x7528;kubespray&#xFF08;&#x4E4B;&#x524D;&#x79F0;&#x4E3A;kube-ansible&#xFF09;&#x5DE5;&#x5177;&#x901A;&#x8FC7;Ansible&#x811A;&#x672C;&#x5728;&#x88F8;&#x673A;&#x6216;&#x865A;&#x62DF;&#x673A;&#x4E0A;&#x90E8;&#x7F72;Kubernetes&#x96C6;&#x7FA4;&#x3002;</li>
+<li>&#x652F;&#x6301;&#x591A;&#x79CD;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x548C;&#x53D1;&#x884C;&#x7248;&#xFF0C;&#x5982;Ubuntu&#x3001;CentOS&#x7B49;&#x3002;</li>
+<li>&#x9700;&#x8981;&#x4E00;&#x4E9B;&#x51C6;&#x5907;&#x5DE5;&#x4F5C;&#xFF0C;&#x5982;&#x8BBE;&#x7F6E;SSH&#x5BC6;&#x94A5;&#x3001;&#x914D;&#x7F6E;&#x4E3B;&#x673A;&#x6E05;&#x5355;&#x7B49;&#x3002;</li>
+<li>&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8FD0;&#x884C;Ansible&#x811A;&#x672C;&#x6765;&#x81EA;&#x52A8;&#x5B89;&#x88C5;&#x548C;&#x914D;&#x7F6E;&#x96C6;&#x7FA4;&#x3002;</li>
+</ul>
+</li>
+<li>Managed Kubernetes&#x670D;&#x52A1;&#xFF1A;<ul>
+<li>&#x516C;&#x6709;&#x4E91;&#x63D0;&#x4F9B;&#x5546;&#x5982;AWS&#xFF08;Amazon EKS&#xFF09;&#x3001;Azure&#xFF08;Azure Kubernetes Service&#xFF09;&#x548C;Google Cloud Platform&#xFF08;Google Kubernetes Engine&#xFF09;&#x7B49;&#x63D0;&#x4F9B;&#x6258;&#x7BA1;&#x7684;Kubernetes&#x670D;&#x52A1;&#x3002;</li>
+<li>&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x4E91;&#x5E73;&#x53F0;&#x7684;&#x63A7;&#x5236;&#x53F0;&#x6216;API&#x6765;&#x521B;&#x5EFA;&#x548C;&#x7BA1;&#x7406;Kubernetes&#x96C6;&#x7FA4;&#x3002;</li>
+<li>&#x63D0;&#x4F9B;&#x9AD8;&#x53EF;&#x7528;&#x6027;&#x3001;&#x81EA;&#x52A8;&#x7F29;&#x653E;&#x548C;&#x5907;&#x4EFD;&#x7B49;&#x529F;&#x80FD;&#xFF0C;&#x63D0;&#x5347;&#x4E86;&#x7BA1;&#x7406;&#x7684;&#x4FBF;&#x6377;&#x6027;&#x3002;</li>
+<li>&#x9700;&#x8981;&#x6839;&#x636E;&#x4E91;&#x5E73;&#x53F0;&#x7684;&#x6587;&#x6863;&#x548C;&#x6307;&#x5BFC;&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#x3002;</li>
+</ul>
+</li>
+</ol>
+<p>&#x8FD9;&#x4E9B;&#x53EA;&#x662F;&#x51E0;&#x79CD;&#x5E38;&#x89C1;&#x7684;&#x5B89;&#x88C5;&#x65B9;&#x5F0F;&#xFF0C;&#x8FD8;&#x6709;&#x5176;&#x4ED6;&#x7684;&#x5B89;&#x88C5;&#x65B9;&#x5F0F;&#x548C;&#x5DE5;&#x5177;&#x53EF;&#x4F9B;&#x9009;&#x62E9;&#xFF0C;&#x5982;Minikube&#x3001;MicroK8s&#x7B49;&#x3002;&#x9009;&#x62E9;&#x9002;&#x5408;&#x4F60;&#x7684;&#x73AF;&#x5883;&#x548C;&#x9700;&#x6C42;&#x7684;&#x5B89;&#x88C5;&#x65B9;&#x5F0F;&#xFF0C;&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x5B9E;&#x9645;&#x60C5;&#x51B5;&#x8FDB;&#x884C;&#x8BC4;&#x4F30;&#x548C;&#x51B3;&#x7B56;&#x3002;</p>
+<h2 id="kubeadm&#x5B89;&#x88C5;&#x90E8;&#x7F72;">Kubeadm&#x5B89;&#x88C5;&#x90E8;&#x7F72;</h2>
+<p>&#x751F;&#x4EA7;&#x96C6;&#x7FA4;&#x90FD;&#x662F;&#x4EE5;&#x81F3;&#x5C11;&#x4EE5;3&#x53F0;&#x673A;&#x5668;&#x51C6;&#x6765;&#x90E8;&#x7F72;&#x9AD8;&#x53EF;&#x7528;&#x96C6;&#x7FA4;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x6D4B;&#x8BD5;&#x73AF;&#x5883;&#x5219;1&#x53F0;&#x5373;&#x53EF;&#xFF0C;&#x672C;&#x6587;&#x6863;&#x5219;&#x4EE5;1+1&#x6765;&#x5B9E;&#x73B0;&#x914D;&#x7F6E;&#x3002;</p>
+<table>
+<thead>
+<tr>
+<th>IP&#x5730;&#x5740;</th>
+<th>&#x89D2;&#x8272;</th>
+<th>&#x4E3B;&#x673A;&#x540D;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>192.168.0.97</td>
+<td>master</td>
+<td>master01</td>
+</tr>
+<tr>
+<td>192.168.0.67</td>
+<td>node</td>
+<td>node01</td>
+</tr>
+</tbody>
+</table>
+<h3 id="&#x51C6;&#x5907;&#x5DE5;&#x4F5C;">&#x51C6;&#x5907;&#x5DE5;&#x4F5C;</h3>
+<h4 id="1&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;">1.&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;</h4>
+<p>&#x5982;&#x679C;&#x6CA1;&#x6709;&#x7279;&#x6B8A;&#x7684;&#x8981;&#x6C42;&#xFF0C;&#x53EF;&#x76F4;&#x63A5;&#x7528;Centos,&#x672C;&#x6B21;&#x64CD;&#x4F5C;&#x4E5F;&#x662F;Centos7.6&#xFF0C;&#x4E5F;&#x4E0D;&#x7528;&#x5355;&#x72EC;&#x5347;&#x7EA7;&#x5185;&#x6838;&#xFF0C;&#x7531;&#x4E8E;&#x662F;&#x666E;&#x901A;&#x6D4B;&#x8BD5;&#x96C6;&#x7FA4;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x8003;&#x8651;&#x90A3;&#x4E9B;&#x3002;</p>
+<h4 id="2&#x521D;&#x59CB;&#x5316;">2.&#x521D;&#x59CB;&#x5316;</h4>
+<pre><code>#&#x5173;&#x95ED;&#x9632;&#x706B;&#x5899;
+systemctl stop firewalld
+systemctl disable firewalld
+#&#x4FEE;&#x6539;&#x4E3B;&#x673A;&#x540D;&#xFF0C;&#x53EF;&#x6839;&#x636E;&#x9700;&#x8981;&#x81EA;&#x5DF1;&#x89C4;&#x5212;&#x540D;&#x5B57;
+hostnamectl set-hostname master01
+hostnamectl set-hostname node01
+#&#x5173;&#x95ED;swap&#xFF0C;&#x5E76;&#x53D6;&#x6D88;&#x5F00;&#x542F;&#x542F;&#x52A8;&#xFF08;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x53EF;&#x5FFD;&#x7565;&#xFF09;
+swapoff -a
+sed -ri &apos;s/.*swap.*/#&amp;/&apos; /etc/fstab
+#&#x5173;&#x95ED;selinux
+setenforce 0
+sed -i &apos;s/enforcing/disabled/&apos; /etc/selinux/config
+#&#x4FEE;&#x6539;hosts,&#x6CE8;&#x610F;&#x66FF;&#x6362;&#x81EA;&#x5DF1;&#x7684;ip&#x5730;&#x5740;
+echo &quot;192.168.0.97 master01&quot; &gt;&gt;/etc/hosts
+echo &quot;192.168.0.67 node01&quot; &gt;&gt;/etc/hosts
+#&#x8C03;&#x6574;&#x5185;&#x6838;&#x53C2;&#x6570;
+echo &quot;net.bridge.bridge-nf-call-ip6tables=1&quot; &gt;&gt; /etc/sysctl.d/kubernetes.conf 
+echo &quot;net.bridge.bridge-nf-call-iptables=1&quot; &gt;&gt; /etc/sysctl.d/kubernetes.conf 
+echo &quot;net.ipv6.conf.all.disable_ipv6=1&quot; &gt;&gt; /etc/sysctl.d/kubernetes.conf 
+echo &quot;net.ipv4.ip_forward=1&quot; &gt;&gt; /etc/sysctl.d/kubernetes.conf 
+sysctl --system
+#&#x91CD;&#x542F;
+reboot
+</code></pre><h3 id="&#x90E8;&#x7F72;">&#x90E8;&#x7F72;</h3>
+<h4 id="1&#x5B89;&#x88C5;docker">1.&#x5B89;&#x88C5;docker</h4>
+<pre><code>wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -0 /etc/yum.repos.d/
+yum install -y docker-ce
+#&#x4E3A;&#x4E86;&#x548C;&#x540E;&#x9762;&#x7684;Kubernetes&#x7248;&#x672C;&#x4FDD;&#x8BC1;&#x6700;&#x597D;&#x7684;&#x517C;&#x5BB9;&#x6027;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x91CC;&#x6700;&#x597D;&#x7684;&#x7248;&#x672C;&#x662F;20.10&#x3002;
+#&#x672C;&#x6B21;&#x90E8;&#x7F72;&#x5E76;&#x6CA1;&#x6709;&#x4FEE;&#x6539;&#xFF0C;&#x662F;&#x91C7;&#x7528;&#x9ED8;&#x8BA4;&#x6700;&#x65B0;&#x7684;Docker&#x7248;&#x672C;&#x3002;
+</code></pre><h4 id="2&#x914D;&#x7F6E;docker">2.&#x914D;&#x7F6E;docker</h4>
+<p>exec-opts &#x8BE5;&#x53C2;&#x6570;&#x662F;&#x5FC5;&#x9009;&#xFF0C;&#x5176;&#x4ED6;&#x53EF;&#x6839;&#x636E;&#x5B9E;&#x9645;&#x9700;&#x8981;&#x9009;&#x586B;&#x3002;</p>
+<p>&#x4E3B;&#x8981;&#x5305;&#x62EC;&#xFF0C;&#x4FEE;&#x6539;docker&#x4E3B;&#x76EE;&#x5F55;&#xFF0C;&#x4FEE;&#x6539;&#x9ED8;&#x8BA4;&#x4ED3;&#x5E93;&#x5730;&#x5740;&#xFF0C;&#x4FEE;&#x6539;&#x4ED3;&#x5E93;&#x7AEF;&#x53E3;&#x662F;&#x4E3A;http&#xFF0C;&#x800C;&#x975E;&#x9ED8;&#x8BA4;&#x7684;https&#xFF1B;&#x4FEE;&#x6539;docker&#x7684;&#x4ED3;&#x5E93;&#x8BC1;&#x4E66;&#x4E0D;&#x88AB;&#x4FE1;&#x4EFB;&#x53CA;&#x4FEE;&#x6539;dockers&#x65E5;&#x5FD7;&#x7684;&#x8F6E;&#x8BE2;&#x89C4;&#x5219;&#x3002;</p>
+<pre><code>{
+  &quot;data-root&quot;: &quot;/new/docker/main/directory&quot;,                 // &#x4FEE;&#x6539; Docker &#x4E3B;&#x76EE;&#x5F55;
+  &quot;registry-mirrors&quot;: [&quot;http://myregistry.example.com:5000&quot;], // &#x4FEE;&#x6539;&#x9ED8;&#x8BA4;&#x4ED3;&#x5E93;&#x5730;&#x5740;&#x548C;&#x7AEF;&#x53E3;&#xFF08;HTTP&#xFF09;
+  &quot;insecure-registries&quot;: [&quot;myregistry.example.com:5000&quot;],     // &#x6DFB;&#x52A0;&#x4E0D;&#x4FE1;&#x4EFB;&#x7684;&#x4ED3;&#x5E93;
+  &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;]&#xFF0C;              // &#x548C;kubelet&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#xFF0C;&#x8BE5;&#x9009;&#x9879;&#x5FC5;&#x987B;
+  &quot;log-driver&quot;: &quot;json-file&quot;,                                  // &#x8BBE;&#x7F6E;&#x65E5;&#x5FD7;&#x9A71;&#x52A8;&#x4E3A; json-file
+  &quot;log-opts&quot;: {                                               // &#x8BBE;&#x7F6E;&#x65E5;&#x5FD7;&#x8F6E;&#x8BE2;&#x89C4;&#x5219;
+    &quot;max-size&quot;: &quot;10m&quot;,                                        // &#x5355;&#x4E2A;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x6700;&#x5927; 10MB
+    &quot;max-file&quot;: &quot;3&quot;                                           // &#x4EC5;&#x4FDD;&#x7559;&#x6700;&#x65B0;&#x7684; 3 &#x4E2A;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;
+  }
+}
+</code></pre><h4 id="4&#x5B89;&#x88C5;kubernetes&#x57FA;&#x7840;&#x8F6F;&#x4EF6;">4.&#x5B89;&#x88C5;Kubernetes&#x57FA;&#x7840;&#x8F6F;&#x4EF6;</h4>
+<pre><code>#&#x914D;&#x7F6E;&#x6E90;
+cat &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt; EOF
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=0
+repo_gpgcheck=0
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+EOF
+#&#x5B89;&#x88C5;kubeadm&#xFF0C;kubelet&#xFF0C;kubectl,&#x8FD9;&#x91CC;&#x9009;&#x62E9;&#x4F60;&#x7684;&#x662F;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x652F;&#x6301;Docker&#x8FD0;&#x884C;&#x65F6;&#x7684;&#x7248;&#x672C;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x52A0;&#x7248;&#x672C;&#x53F7;&#x5219;&#x662F;&#x6700;&#x65B0;&#x7248;&#x672C;&#x3002;
+yum install -y kubeadm-1.23.12 kubelet-1.23.12 kubectl-1.23.12
+</code></pre><h4 id="4&#x542F;&#x52A8;docker&#xFF0C;kubelet">4.&#x542F;&#x52A8;Docker&#xFF0C;Kubelet</h4>
+<pre><code>systemctl start docker kubelet
+systemctl enable docker kubelet
+</code></pre><h4 id="5&#x90E8;&#x7F72;master">5.&#x90E8;&#x7F72;Master</h4>
+<p>&#x9ED8;&#x8BA4;Kubernetes&#x6240;&#x9700;&#x8981;&#x7684;&#x955C;&#x50CF;&#x662F;&#x662F;&#x5728;&#x56FD;&#x5916;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x4E0D;&#x5177;&#x6709;&#x79D1;&#x5B66;&#x4E0A;&#x7F51;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x6709;2&#x79CD;&#x65B9;&#x6CD5;&#x6765;&#x5B9E;&#x73B0;&#xFF1A;1.&#x63D0;&#x524D;&#x4ECE;&#x5176;&#x4ED6;&#x5730;&#x65B9;&#x5C06;&#x4E0B;&#x8F7D;&#x597D;&#x7684;&#x955C;&#x50CF;&#xFF0C;&#x5BFC;&#x5165;&#x5230;&#x672C;&#x5730;&#x3002;2.&#x4F7F;&#x7528;&#x963F;&#x91CC;&#x4E91;&#x7684;&#x955C;&#x50CF;&#x6E90;&#x5730;&#x5740;</p>
+<pre><code>kubeadm init \
+--apiserver-advertise-address=192.168.0.97 \
+--image-repository registry.aliyuncs.com/google_containers \
+--kubernetes-version v1.23.12 \
+--pod-network-cidr=10.244.0.0/16
+#&#x6B64;&#x5904;&#x7248;&#x672C;&#x6CE8;&#x610F;&#x548C;&#x4E0A;&#x9762;&#x7684;&#x7248;&#x672C;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x3002;
+</code></pre><p>&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x4E2D;&#x4F1A;&#x5148;&#x4E0B;&#x8F7D;&#x955C;&#x50CF;&#xFF0C;&#x5B8C;&#x6574;&#x7684;&#x955C;&#x50CF;&#x5982;&#x4E0B;&#x56FE;</p>
+<p><img src=".Install/image-20231128131139064.png" alt="image-20231128131139064"></p>
+<p>&#x5B89;&#x88C5;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x8FD9;&#x4E2A;&#x56FE;&#x4E5F;&#x662F;&#x4FEE;&#x6B63;&#x4E86;&#x51E0;&#x6B21;&#x624D;&#x6210;&#x529F;&#x7684;&#xFF0C;&#x7EA2;&#x6846;&#x7B2C;&#x4E00;&#x4E2A;&#x662F;&#x521B;&#x5EFA;&#x96C6;&#x7FA4;&#x8BED;&#x53E5;&#xFF0C;&#x7B2C;&#x4E8C;&#x4E2A;&#x662F;&#x914D;&#x7F6E;Kubectl&#x547D;&#x4EE4;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x7B2C;&#x4E09;&#x4E2A;&#x662F;Node&#x8282;&#x70B9;&#x52A0;&#x5165;&#x96C6;&#x7FA4;&#x7684;&#x8BED;&#x53E5;&#x3002;</p>
+<p><img src=".Install/image-20231128132212754.png" alt="image-20231128132212754"></p>
+<h4 id="6&#x914D;&#x7F6E;kubectl&#x914D;&#x7F6E;&#x6587;&#x4EF6;">6.&#x914D;&#x7F6E;kubectl&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h4>
+<pre><code>  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+</code></pre><h4 id="7-&#x786E;&#x8BA4;&#x96C6;&#x7FA4;&#x5B89;&#x88C5;&#x6210;&#x529F;">7. &#x786E;&#x8BA4;&#x96C6;&#x7FA4;&#x5B89;&#x88C5;&#x6210;&#x529F;</h4>
+<p><img src=".Install/image-20231128132558298.png" alt="image-20231128132558298"></p>
+<h4 id="8&#x6DFB;&#x52A0;node">8.&#x6DFB;&#x52A0;Node</h4>
+<p>&#x7528;&#x521A;&#x624D;&#x521B;&#x5EFA;&#x96C6;&#x7FA4;&#x751F;&#x4EA7;&#x7684;&#x8BED;&#x53E5;&#xFF0C;&#x5982;&#x679C;&#x5FD8;&#x8BB0;&#x6216;&#x8005;&#x8FC7;&#x4E86;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;token&#x8FC7;&#x671F;&#xFF0C;&#x5219;&#x5148;&#x91CD;&#x65B0;&#x521B;&#x5EFA;&#x3002;</p>
+<pre><code>#&#x521B;&#x5EFA;&#x65B0;token
+kubeadm token create --print-join-command
+</code></pre><pre><code>#&#x52A0;&#x5165;&#x96C6;&#x7FA4;
+kubeadm join 192.168.0.97:6443 --token eyn4kz.z7dpw13fu2t0c3kj \
+    --discovery-token-ca-cert-hash sha256:1e68fe3a10569f9b3c716a78a7e369317dc4f4ebe7333532ea5e5e3b797c706f
+</code></pre><p><img src=".Install/image-20231128144753204.png" alt="image-20231128144753204"></p>
+<h4 id="9&#x68C0;&#x67E5;node&#x8282;&#x70B9;">9.&#x68C0;&#x67E5;Node&#x8282;&#x70B9;</h4>
+<pre><code>kubectl get node
+kubectl get pod -A
+</code></pre><p>&#x7531;&#x4E8E;&#x76EE;&#x524D;&#x8FD8;&#x6CA1;&#x7F51;&#x7EDC;&#x63D2;&#x4EF6;&#xFF0C;&#x6240;&#x4EE5;&#x8282;&#x70B9;&#x90FD;&#x662F;NotReady&#x72B6;&#x6001;&#x3002;&#x7531;&#x4E8E;&#x6CA1;&#x6709;Ready&#x7684;&#x8282;&#x70B9;&#xFF0C;&#x6240;&#x4EE5;coredns&#x4E00;&#x76F4;&#x5904;&#x4E8E;Pending&#xFF08;&#x7B49;&#x5F85;&#x8C03;&#x5EA6;&#xFF09;&#x72B6;&#x6001;&#x3002;</p>
+<p><img src=".Install/image-20231128144836977.png" alt="image-20231128144836977"></p>
+<p><img src=".Install/image-20231128144914744.png" alt="image-20231128144914744"></p>
+<h4 id="10&#x5B89;&#x88C5;&#x7F51;&#x7EDC;&#x63D2;&#x4EF6;">10.&#x5B89;&#x88C5;&#x7F51;&#x7EDC;&#x63D2;&#x4EF6;</h4>
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+</code></pre><p><img src=".Install/image-20231128145234115.png" alt="image-20231128145234115"></p>
+<p>&#x63D2;&#x4EF6;&#x4F1A;&#x521B;&#x5EFA;&#x96C6;&#x7FA4;&#x89D2;&#x8272;&#xFF0C;&#x96C6;&#x7FA4;&#x89D2;&#x8272;&#x7ED1;&#x5B9A;&#x7B49;&#x8D44;&#x6E90;&#xFF0C;&#x7A0D;&#x7B49;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x518D;&#x6B21;&#x67E5;&#x770B;&#x96C6;&#x7FA4;&#x72B6;&#x6001;&#x548C;pod&#x72B6;&#x6001;&#x3002;</p>
+<p><img src=".Install/image-20231128145406348.png" alt="image-20231128145406348"></p>
+<p>&#x81F3;&#x6B64;&#x6574;&#x4E2A;Kubernetes&#x96C6;&#x7FA4;&#x642D;&#x5EFA;&#x5C31;&#x7B97;&#x5B8C;&#x6210;&#xFF0C;&#x5269;&#x4E0B;&#x7684;&#x5C31;&#x662F;&#x4F7F;&#x7528;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="Concept.html" class="navigation navigation-prev " aria-label="Previous page: 6.1. Kubernetes基本概念">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="Kubectl.html" class="navigation navigation-next " aria-label="Next page: 6.3. Kubectl命令">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"6.2. Kubernetes安装","level":"1.7.2","depth":2,"next":{"title":"6.3. Kubectl命令","level":"1.7.3","depth":2,"path":"Kubernetes/Kubectl.md","ref":"Kubernetes/Kubectl.md","articles":[]},"previous":{"title":"6.1. Kubernetes基本概念","level":"1.7.1","depth":2,"path":"Kubernetes/Concept.md","ref":"Kubernetes/Concept.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Kubernetes/Install.md","mtime":"2023-11-28T06:55:59.419Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2023-12-01T09:23:21.802Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

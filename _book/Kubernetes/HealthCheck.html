@@ -1,0 +1,832 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>6.9. Kubernetes的健康检查 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Service.html" />
+    
+    
+    <link rel="prev" href="Request&Limit.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../Linux/">
+            
+                <a href="../Linux/">
+            
+                    
+                    1. Linux基础介绍
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../Linux/LinuxBase.html">
+            
+                <a href="../Linux/LinuxBase.html">
+            
+                    
+                    1.1. Linux基本介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../Linux/LinuxInstall.html">
+            
+                <a href="../Linux/LinuxInstall.html">
+            
+                    
+                    1.2. Linux系统安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../Linux/LinuxSSH.html">
+            
+                <a href="../Linux/LinuxSSH.html">
+            
+                    
+                    1.3. LinuxSSH连接
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../LinuxBasic/">
+            
+                <a href="../LinuxBasic/">
+            
+                    
+                    2. Linux基础操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../LinuxBasic/System.html">
+            
+                <a href="../LinuxBasic/System.html">
+            
+                    
+                    2.1. Linux系统操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../LinuxBasic/User.html">
+            
+                <a href="../LinuxBasic/User.html">
+            
+                    
+                    2.2. Linux用户操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../LinuxBasic/Permissions.html">
+            
+                <a href="../LinuxBasic/Permissions.html">
+            
+                    
+                    2.3. Linux权限操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../LinuxBasic/File.html">
+            
+                <a href="../LinuxBasic/File.html">
+            
+                    
+                    2.4. Linux文件操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../LinuxBasic/Soft.html">
+            
+                <a href="../LinuxBasic/Soft.html">
+            
+                    
+                    2.5. Linux软件操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../LinuxBasic/Network.html">
+            
+                <a href="../LinuxBasic/Network.html">
+            
+                    
+                    2.6. Linux网络操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../LinuxBasic/Safety.html">
+            
+                <a href="../LinuxBasic/Safety.html">
+            
+                    
+                    2.7. Linux安全操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../LinuxAdvanced/">
+            
+                <a href="../LinuxAdvanced/">
+            
+                    
+                    3. Linux进阶操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../LinuxAdvanced/Hostname.html">
+            
+                <a href="../LinuxAdvanced/Hostname.html">
+            
+                    
+                    3.1. Linux主机名
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../LinuxAdvanced/Env.html">
+            
+                <a href="../LinuxAdvanced/Env.html">
+            
+                    
+                    3.2. Linux环境变量
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../LinuxAdvanced/Mirrors.html">
+            
+                <a href="../LinuxAdvanced/Mirrors.html">
+            
+                    
+                    3.3. Linux的Yum源
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../LinuxAdvanced/Ntp.html">
+            
+                <a href="../LinuxAdvanced/Ntp.html">
+            
+                    
+                    3.4. Linux的NTP
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../LinuxAdvanced/Soft.md">
+            
+                <span>
+            
+                    
+                    3.5. Linux软件操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../LinuxAdvanced/Network.html">
+            
+                <a href="../LinuxAdvanced/Network.html">
+            
+                    
+                    3.6. Linux网络操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../LinuxAdvanced/Safety.md">
+            
+                <span>
+            
+                    
+                    3.7. Linux安全操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../Middleware/">
+            
+                <a href="../Middleware/">
+            
+                    
+                    4. 中间件
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../Middleware/RocketMQ.html">
+            
+                <a href="../Middleware/RocketMQ.html">
+            
+                    
+                    4.1. RocketMQ
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../Docker/">
+            
+                <a href="../Docker/">
+            
+                    
+                    5. Docker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    6. Kubernetes
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="Concept.html">
+            
+                <a href="Concept.html">
+            
+                    
+                    6.1. Kubernetes基本概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="Install.html">
+            
+                <a href="Install.html">
+            
+                    
+                    6.2. Kubernetes安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="Kubectl.html">
+            
+                <a href="Kubectl.html">
+            
+                    
+                    6.3. Kubectl命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="Pod.html">
+            
+                <a href="Pod.html">
+            
+                    
+                    6.4. Pod的介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5" data-path="PodStatus.html">
+            
+                <a href="PodStatus.html">
+            
+                    
+                    6.5. Pod的状态
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6" data-path="Deployment.html">
+            
+                <a href="Deployment.html">
+            
+                    
+                    6.6. Deployment的介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.7" data-path="Scheduler.html">
+            
+                <a href="Scheduler.html">
+            
+                    
+                    6.7. Kubernetes的调度
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.8" data-path="Request&Limit.html">
+            
+                <a href="Request&Limit.html">
+            
+                    
+                    6.8. Kubernetes的资源限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.7.9" data-path="HealthCheck.html">
+            
+                <a href="HealthCheck.html">
+            
+                    
+                    6.9. Kubernetes的健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.10" data-path="Service.html">
+            
+                <a href="Service.html">
+            
+                    
+                    6.10. Kubernetes的服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.11" data-path="Ingress.html">
+            
+                <a href="Ingress.html">
+            
+                    
+                    6.11. Kubernetes的Ingress
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.12" data-path="Helm.html">
+            
+                <a href="Helm.html">
+            
+                    
+                    6.12. Kubernetes的Helm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.13" data-path="PV&PVC.html">
+            
+                <a href="PV&PVC.html">
+            
+                    
+                    6.13. Kubernetes的存储
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >6.9. Kubernetes的健康检查</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="healthcheck">HealthCheck</h1>
+<p>&#x5728; Kubernetes &#x4E2D;&#xFF0C;<em>&#x5065;&#x5EB7;&#x68C0;&#x67E5;</em>&#xFF08;Health Checks&#xFF09;&#x4E3B;&#x8981;&#x901A;&#x8FC7;&#x4E24;&#x79CD;&#x673A;&#x5236;&#x6765;&#x5B9E;&#x73B0;&#xFF1A;Liveness Probes &#x548C; Readiness Probes&#x3002;&#x8FD9;&#x4E9B;&#x68C0;&#x67E5;&#x5E2E;&#x52A9; Kubernetes &#x7406;&#x89E3;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5185;&#x90E8;&#x7684;&#x72B6;&#x6001;&#xFF0C;&#x5E76;&#x76F8;&#x5E94;&#x5730;&#x7BA1;&#x7406; Pod&#x3002;&#x914D;&#x7F6E;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x786E;&#x4FDD; Kubernetes &#x80FD;&#x591F;&#x54CD;&#x5E94;&#x5E94;&#x7528;&#x7684;&#x6545;&#x969C;&#xFF0C;&#x63D0;&#x4F9B;&#x81EA;&#x52A8;&#x6062;&#x590D;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x5E76;&#x786E;&#x4FDD;&#x6D41;&#x91CF;&#x4E0D;&#x4F1A;&#x53D1;&#x9001;&#x5230;&#x5C1A;&#x672A;&#x51C6;&#x5907;&#x597D;&#x5904;&#x7406;&#x8BF7;&#x6C42;&#x7684; Pod&#x3002;</p>
+<h3 id="liveness-probes">Liveness Probes</h3>
+<p>Liveness Probes &#x786E;&#x5B9A;&#x4F55;&#x65F6;&#x9700;&#x8981;&#x91CD;&#x542F;&#x5BB9;&#x5668;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5F53;&#x5E94;&#x7528;&#x9677;&#x5165;&#x6B7B;&#x9501;&#xFF0C;&#x80FD;&#x591F;&#x54CD;&#x5E94; Web &#x670D;&#x52A1;&#x5668;&#x7684; ping&#xFF0C;&#x4F46;&#x65E0;&#x6CD5;&#x8FDB;&#x884C;&#x8FDB;&#x4E00;&#x6B65;&#x64CD;&#x4F5C;&#x65F6;&#xFF0C;&#x6700;&#x597D;&#x662F;&#x91CD;&#x542F;&#x5BB9;&#x5668;&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#x662F;&#x4E00;&#x4E2A; Liveness Probe &#x7684;&#x793A;&#x4F8B;&#x914D;&#x7F6E;&#xFF1A;</p>
+<pre><code class="lang-yaml"><span class="hljs-attr">livenessProbe:</span>
+<span class="hljs-attr">  httpGet:</span>
+<span class="hljs-attr">    path:</span> /healthz
+<span class="hljs-attr">    port:</span> <span class="hljs-number">8080</span>
+<span class="hljs-attr">  initialDelaySeconds:</span> <span class="hljs-number">3</span>
+<span class="hljs-attr">  periodSeconds:</span> <span class="hljs-number">3</span>
+</code></pre>
+<h3 id="readiness-probes">Readiness Probes</h3>
+<p>Readiness Probes &#x786E;&#x5B9A;&#x5BB9;&#x5668;&#x662F;&#x5426;&#x5DF2;&#x7ECF;&#x51C6;&#x5907;&#x597D;&#x63A5;&#x53D7;&#x6D41;&#x91CF;&#x3002;&#x5982;&#x679C; Pod &#x4E0D;&#x51C6;&#x5907;&#x597D;&#xFF0C;&#x5B83;&#x4F1A;&#x4ECE;&#x670D;&#x52A1;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x5668;&#x4E2D;&#x79FB;&#x9664;&#x3002;Readiness Probes &#x901A;&#x5E38;&#x7528;&#x4E8E;&#x5728;&#x542F;&#x52A8;&#x65F6;&#xFF0C;&#x5BB9;&#x5668;&#x9700;&#x8981;&#x52A0;&#x8F7D;&#x5927;&#x91CF;&#x6570;&#x636E;&#x6216;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x3001;&#x4E0E;&#x5916;&#x90E8;&#x670D;&#x52A1;&#x8FDB;&#x884C;&#x8FDE;&#x63A5;&#x7B49;&#x573A;&#x666F;&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#x662F;&#x4E00;&#x4E2A; Readiness Probe &#x7684;&#x793A;&#x4F8B;&#x914D;&#x7F6E;&#xFF1A;</p>
+<pre><code class="lang-yaml"><span class="hljs-attr">readinessProbe:</span>
+<span class="hljs-attr">  httpGet:</span>
+<span class="hljs-attr">    path:</span> /ready
+<span class="hljs-attr">    port:</span> <span class="hljs-number">8080</span>
+<span class="hljs-attr">  initialDelaySeconds:</span> <span class="hljs-number">5</span>
+<span class="hljs-attr">  periodSeconds:</span> <span class="hljs-number">5</span>
+</code></pre>
+<h3 id="&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x7C7B;&#x578B;">&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x7C7B;&#x578B;</h3>
+<ul>
+<li><p><code>httpGet</code>&#xFF1A;Kubernetes &#x5C1D;&#x8BD5;&#x5BF9;&#x6307;&#x5B9A;&#x7684;&#x8DEF;&#x5F84;&#x548C;&#x7AEF;&#x53E3;&#x6267;&#x884C; HTTP GET &#x8BF7;&#x6C42;&#x3002;&#x5982;&#x679C;&#x8FD4;&#x56DE;&#x7684;&#x72B6;&#x6001;&#x7801;&#x662F; 200-399 &#x4E4B;&#x95F4;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x8BA4;&#x4E3A;&#x662F;&#x6210;&#x529F;&#x7684;&#x3002;</p>
+</li>
+<li><p><code>exec</code>&#xFF1A;Kubernetes &#x4F1A;&#x5728;&#x5BB9;&#x5668;&#x5185;&#x6267;&#x884C;&#x6307;&#x5B9A;&#x7684;&#x547D;&#x4EE4;&#x3002;&#x5982;&#x679C;&#x547D;&#x4EE4;&#x9000;&#x51FA;&#x4EE3;&#x7801;&#x4E3A; 0&#xFF0C;&#x5219;&#x8BA4;&#x4E3A;&#x63A2;&#x6D4B;&#x6210;&#x529F;&#x3002;</p>
+<pre><code>   livenessProbe:
+      exec:
+        command:
+        - my-command
+      initialDelaySeconds: 10
+      periodSeconds: 5
+</code></pre></li>
+<li><p><code>tcpSocket</code>&#xFF1A;Kubernetes &#x5C1D;&#x8BD5;&#x6253;&#x5F00;&#x5BB9;&#x5668;&#x7684;&#x6307;&#x5B9A;&#x7AEF;&#x53E3;&#x3002;&#x5982;&#x679C;&#x80FD;&#x591F;&#x5EFA;&#x7ACB; TCP &#x8FDE;&#x63A5;&#xFF0C;&#x5219;&#x63A2;&#x6D4B;&#x88AB;&#x8BA4;&#x4E3A;&#x662F;&#x6210;&#x529F;&#x7684;&#x3002;</p>
+<pre><code>   readinessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 10
+</code></pre></li>
+</ul>
+<h3 id="&#x5E38;&#x89C1;&#x53C2;&#x6570;">&#x5E38;&#x89C1;&#x53C2;&#x6570;</h3>
+<ul>
+<li><code>initialDelaySeconds</code>&#xFF1A;&#x5BB9;&#x5668;&#x542F;&#x52A8;&#x540E;&#x5EF6;&#x8FDF;&#x591A;&#x5C11;&#x79D2;&#x540E;&#x5F00;&#x59CB;&#x8FDB;&#x884C;&#x7B2C;&#x4E00;&#x6B21;&#x63A2;&#x6D4B;&#x3002;</li>
+<li><code>periodSeconds</code>&#xFF1A;&#x6267;&#x884C;&#x63A2;&#x6D4B;&#x7684;&#x9891;&#x7387;&#x3002;</li>
+<li><code>timeoutSeconds</code>&#xFF1A;&#x63A2;&#x6D4B;&#x8BF7;&#x6C42;&#x8D85;&#x65F6;&#x7684;&#x79D2;&#x6570;&#x3002;</li>
+<li><code>successThreshold</code>&#xFF1A;&#x63A2;&#x6D4B;&#x88AB;&#x8BA4;&#x4E3A;&#x6210;&#x529F;&#x4E4B;&#x524D;&#x7684;&#x6700;&#x5C0F;&#x8FDE;&#x7EED;&#x6210;&#x529F;&#x6B21;&#x6570;&#x3002;</li>
+<li><code>failureThreshold</code>&#xFF1A;&#x5F53;&#x63A2;&#x6D4B;&#x5931;&#x8D25;&#x540E;&#xFF0C;Kubernetes &#x5C1D;&#x8BD5;&#x91CD;&#x542F;&#x4E4B;&#x524D;&#x7684;&#x6700;&#x5C0F;&#x8FDE;&#x7EED;&#x5931;&#x8D25;&#x6B21;&#x6570;&#x3002;</li>
+</ul>
+<p>&#x6B63;&#x786E;&#x914D;&#x7F6E;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x6709;&#x52A9;&#x4E8E;&#x786E;&#x4FDD; Kubernetes &#x96C6;&#x7FA4;&#x80FD;&#x591F;&#x81EA;&#x52A8;&#x5904;&#x7406;&#x5BB9;&#x5668;&#x5931;&#x8D25;&#xFF0C;&#x4EE5;&#x53CA;&#x53EA;&#x5C06;&#x6D41;&#x91CF;&#x53D1;&#x9001;&#x5230;&#x5DF2;&#x51C6;&#x5907;&#x597D;&#x7684;&#x670D;&#x52A1;&#x5B9E;&#x4F8B;&#x3002;</p>
+<p>&#x5728; Kubernetes &#x4E2D;&#xFF0C;&#x5F53;&#x60A8;&#x9700;&#x8981;&#x5728; Pod &#x7EC8;&#x6B62;&#x4E4B;&#x524D;&#x6267;&#x884C;&#x7279;&#x5B9A;&#x7684;&#x6E05;&#x7406;&#x64CD;&#x4F5C;&#x6216;&#x4F18;&#x96C5;&#x5173;&#x95ED;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x201C;&#x5173;&#x95ED;&#x94A9;&#x5B50;&#x201D;(Termination Hooks)&#x3002;&#x6700;&#x5E38;&#x89C1;&#x7684;&#x662F;&#x4F7F;&#x7528; <code>preStop</code> &#x94A9;&#x5B50;&#xFF0C;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x5728;&#x53D1;&#x9001; SIGTERM &#x4FE1;&#x53F7;&#x7ED9;&#x5BB9;&#x5668;&#x4EE5;&#x7ED3;&#x675F;&#x8FDB;&#x7A0B;&#x4E4B;&#x524D;&#x6267;&#x884C;&#x7684;&#x547D;&#x4EE4;&#x6216; HTTP &#x8BF7;&#x6C42;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;&#x76EE;&#x524D;&#x4F7F;&#x7528;&#x8FD8;&#x662F;&#x6BD4;&#x8F83;&#x5C11;&#x7684;&#xFF0C;&#x53EF;&#x4F5C;&#x4E3A;&#x4E86;&#x89E3;&#x3002;</p>
+<h3 id="prestop-&#x94A9;&#x5B50;&#x7684;-exec-&#x793A;&#x4F8B;"><code>preStop</code> &#x94A9;&#x5B50;&#x7684; <code>exec</code> &#x793A;&#x4F8B;</h3>
+<p>&#x4EE5;&#x4E0B;&#x662F; <code>preStop</code> &#x94A9;&#x5B50;&#x914D;&#x7F6E;&#x7684;&#x793A;&#x4F8B;&#xFF0C;&#x5B83;&#x4F7F;&#x7528; <code>exec</code> &#x7C7B;&#x578B;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x811A;&#x672C;&#x6216;&#x547D;&#x4EE4;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;<code>preStop</code> &#x94A9;&#x5B50;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x540D;&#x4E3A; <code>pre-stop-script.sh</code> &#x7684;&#x811A;&#x672C;&#x3002;</p>
+<pre><code class="lang-yaml"><span class="hljs-attr">apiVersion:</span> v1
+<span class="hljs-attr">kind:</span> Pod
+<span class="hljs-attr">metadata:</span>
+<span class="hljs-attr">  name:</span> mypod
+<span class="hljs-attr">spec:</span>
+<span class="hljs-attr">  containers:</span>
+<span class="hljs-attr">  - name:</span> mycontainer
+<span class="hljs-attr">    image:</span> myimage
+<span class="hljs-attr">    lifecycle:</span>
+<span class="hljs-attr">      preStop:</span>
+<span class="hljs-attr">        exec:</span>
+<span class="hljs-attr">          command:</span> [<span class="hljs-string">&quot;/bin/sh&quot;</span>, <span class="hljs-string">&quot;-c&quot;</span>, <span class="hljs-string">&quot;/usr/sbin/pre-stop-script.sh&quot;</span>]
+</code></pre>
+<p>&#x5728;&#x6B64;&#x4F8B;&#x4E2D;&#xFF0C;&#x5F53; Pod &#x6536;&#x5230;&#x7EC8;&#x6B62;&#x8BF7;&#x6C42;&#x540E;&#xFF0C;&#x5B83;&#x5C06;&#x8FD0;&#x884C;&#x6307;&#x5B9A;&#x7684;&#x811A;&#x672C;&#xFF0C;&#x7136;&#x540E;&#x7B49;&#x5F85;&#x8BE5;&#x811A;&#x672C;&#x6267;&#x884C;&#x5B8C;&#x6210;&#x3002;&#x5728;&#x811A;&#x672C;&#x5B8C;&#x6210;&#x540E;&#xFF0C;Kubernetes &#x5C06;&#x7EE7;&#x7EED;&#x6B63;&#x5E38;&#x7684;&#x7EC8;&#x6B62;&#x8FC7;&#x7A0B;&#xFF0C;&#x5411;&#x5BB9;&#x5668;&#x8FDB;&#x7A0B;&#x53D1;&#x9001; SIGTERM &#x4FE1;&#x53F7;&#x3002;</p>
+<h3 id="prestop-&#x94A9;&#x5B50;&#x7684;-httpget-&#x793A;&#x4F8B;"><code>preStop</code> &#x94A9;&#x5B50;&#x7684; <code>httpGet</code> &#x793A;&#x4F8B;</h3>
+<p>&#x5982;&#x679C;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A; HTTP &#x7EC8;&#x7AEF;&#x6765;&#x5B9E;&#x65BD;&#x4F18;&#x96C5;&#x7684;&#x5173;&#x95ED;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>httpGet</code> &#x7C7B;&#x578B;&#x7684; <code>preStop</code> &#x94A9;&#x5B50;&#x3002;</p>
+<pre><code class="lang-yaml"><span class="hljs-attr">apiVersion:</span> v1
+<span class="hljs-attr">kind:</span> Pod
+<span class="hljs-attr">metadata:</span>
+<span class="hljs-attr">  name:</span> mypod
+<span class="hljs-attr">spec:</span>
+<span class="hljs-attr">  containers:</span>
+<span class="hljs-attr">  - name:</span> mycontainer
+<span class="hljs-attr">    image:</span> myimage
+<span class="hljs-attr">    lifecycle:</span>
+<span class="hljs-attr">      preStop:</span>
+<span class="hljs-attr">        httpGet:</span>
+<span class="hljs-attr">          path:</span> /pre-stop
+<span class="hljs-attr">          port:</span> <span class="hljs-number">8080</span>
+<span class="hljs-attr">          scheme:</span> HTTP
+</code></pre>
+<p>&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x5F53; Pod &#x6536;&#x5230;&#x7EC8;&#x6B62;&#x8BF7;&#x6C42;&#x540E;&#xFF0C;Kubernetes &#x5C06;&#x5BF9;&#x5BB9;&#x5668;&#x5185;&#x7684; <code>/pre-stop</code> &#x7AEF;&#x70B9;&#x53D1;&#x8D77; HTTP GET &#x8BF7;&#x6C42;&#xFF0C;&#x5BB9;&#x5668;&#x53EF;&#x4EE5;&#x5728;&#x8BE5;&#x7AEF;&#x70B9;&#x5904;&#x7406;&#x4EFB;&#x4F55;&#x5FC5;&#x8981;&#x7684;&#x6E05;&#x7406;&#x5DE5;&#x4F5C;&#x3002;&#x5904;&#x7406;&#x5B8C;&#x6210;&#x540E;&#xFF0C;Kubernetes &#x4F1A;&#x53D1;&#x9001; SIGTERM &#x4FE1;&#x53F7;&#x4EE5;&#x7EC8;&#x6B62;&#x5BB9;&#x5668;&#x3002;</p>
+<p>&#x8BF7;&#x8BB0;&#x4F4F;&#xFF0C;<code>preStop</code> &#x94A9;&#x5B50;&#x7684;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x4F1A;&#x8BA1;&#x5165; Pod &#x7684; <code>terminationGracePeriodSeconds</code>&#xFF08;&#x9ED8;&#x8BA4; 30 &#x79D2;&#xFF09;&#xFF0C;&#x5982;&#x679C;&#x94A9;&#x5B50;&#x6267;&#x884C;&#x8D85;&#x51FA;&#x4E86;&#x5BBD;&#x9650;&#x671F;&#xFF0C;Kubernetes &#x5C06;&#x53D1;&#x9001; SIGKILL &#x4FE1;&#x53F7;&#x5F3A;&#x5236;&#x7EC8;&#x6B62;&#x5BB9;&#x5668;&#x3002;&#x5982;&#x679C;&#x4F60;&#x7684;&#x6E05;&#x7406;&#x64CD;&#x4F5C;&#x9700;&#x8981;&#x8F83;&#x957F;&#x65F6;&#x95F4;&#xFF0C;&#x786E;&#x4FDD;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x8DB3;&#x591F;&#x957F;&#x7684;&#x5BBD;&#x9650;&#x671F;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="Request&Limit.html" class="navigation navigation-prev " aria-label="Previous page: 6.8. Kubernetes的资源限制">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="Service.html" class="navigation navigation-next " aria-label="Next page: 6.10. Kubernetes的服务">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"6.9. Kubernetes的健康检查","level":"1.7.9","depth":2,"next":{"title":"6.10. Kubernetes的服务","level":"1.7.10","depth":2,"path":"Kubernetes/Service.md","ref":"Kubernetes/Service.md","articles":[]},"previous":{"title":"6.8. Kubernetes的资源限制","level":"1.7.8","depth":2,"path":"Kubernetes/Request&Limit.md","ref":"Kubernetes/Request&Limit.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Kubernetes/HealthCheck.md","mtime":"2023-11-28T08:52:24.639Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2023-12-01T09:23:21.802Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
