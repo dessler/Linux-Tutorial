@@ -72,7 +72,7 @@ systemctl enable ntpd
 ntpq -pn
 ```
 
-![image-20231205210034600](.Install\image-20231205210034600.png)
+![image-20231205210034600](.Install/image-20231205210034600.png)
 
 #### 2.3.5 重启节点
 
@@ -133,7 +133,7 @@ mysql_secure_installation
 #根据提示输入密码
 ```
 
-![image-20231205213351638](.Install\image-20231205213351638.png)
+![image-20231205213351638](.Install/image-20231205213351638.png)
 
 ### 3.3 安装rabbitmq
 
@@ -158,7 +158,7 @@ rabbitmqctl add_user openstack passwd
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 ```
 
-#### ![image-20231205214409760](.Install\image-20231205214409760.png)
+#### ![image-20231205214409760](.Install/image-20231205214409760.png)
 
 ```
 ```
