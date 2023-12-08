@@ -30,8 +30,8 @@
 ```
 #3台机器都执行
 echo "192.168.0.78 control" >> /etc/hosts
-echo "192.168.0.78 computer1" >> /etc/hosts
-echo "192.168.0.78 computer2" >> /etc/hosts
+echo "192.168.0.28 computer1" >> /etc/hosts
+echo "192.168.0.29 computer2" >> /etc/hosts
 ```
 
 ## 2.3 安装部署ntp客户端
@@ -160,7 +160,7 @@ rabbitmqctl add_user openstack passwd
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 ```
 
-#### ![image-20231205214409760](.Install/image-20231205214409760.png)
+![image-20231205214409760](.Install/image-20231205214409760.png)
 
 ### 3.4 安装memcached
 
@@ -299,3 +299,382 @@ openstack domain create --description "An Example Domain" openstack
 openstack project create --domain default  --description "Demo Project" myopenstack
 ```
 
+### 4.2 glance安装
+#### 4.2.1 创建glance数据库
+
+```
+#登录mysql,control机器执行
+mysql -uroot -p
+#登录以后执行的命令，非shell命令，创建数据库，库名：glance
+CREATE DATABASE glance;
+#设置glance库的的用户及访问控制权限
+GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY '自己的密码';
+GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY '自己的密码';
+```
+
+#### 4.2.2 创建glance用户
+
+创建用户的同时，需要在交付场景下设置改用户的密码。
+
+```
+openstack user create --domain default --password-prompt glance
+```
+
+![image-20231208150458126](.Install/image-20231208150458126.png)
+
+#### 4.2.3 添加glance用户权限
+
+将名为"glance"的用户添加到"service"项目，并将其分配为"admin"角色。这将赋予"glance"用户超级管理员权限
+
+```
+openstack role add --project service --user glance admin
+```
+
+#### 4.2.4 创建镜像服务
+
+创建一个名为"glance"的服务，并设置其描述为"OpenStack Image"。服务类型为"image"
+
+```
+openstack service create --name glance --description "OpenStack Image" image
+```
+
+![image-20231208151207061](.Install/image-20231208151207061.png)
+
+#### 4.2.5 创建api站点
+
+第一个命令创建了一个名为"public"的终端节点，用于公共访问。它位于"RegionOne"区域
+
+第二个命令创建了一个名为"internal"的终端节点，用于内部访问。它也位于"RegionOne"区域
+
+第三个命令创建了一个名为"admin"的终端节点，用于管理员访问。同样，它也位于"RegionOne"区域
+
+```
+openstack endpoint create --region RegionOne image public http://control:9292
+openstack endpoint create --region RegionOne image internal http://control:9292
+openstack endpoint create --region RegionOne image admin http://control:9292
+```
+
+#### 4.2.6 安装glance软件包
+
+```
+yum install openstack-glance
+```
+
+#### 4.2.7 修改glance配置文件
+
+```
+vim /etc/glance/glance-api.conf
+#修改数据库的链接信息
+[database]
+connection = mysql+pymysql://glance:自己的密码@control/glance
+
+#添加认证信息
+[keystone_authtoken]
+www_authenticate_uri  = http://control:5000
+auth_url = http://control:5000
+memcached_servers = control:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = glance
+```
+
+#### 4.2.8 同步数据库
+
+通俗来说就是初始化数据库表。
+
+```
+su -s /bin/sh -c "glance-manage db_sync" glance
+```
+
+#### 4.2.9 启动服务
+
+```
+systemctl enable openstack-glance-api.service
+systemctl start openstack-glance-api.service
+```
+
+
+
+#### 4.2.10 准备原始镜像
+
+去其他地方找一个原始镜像,比如这里就很多，下载img格式的文件即可。
+
+```
+https://github.com/cirros-dev/cirros/releases
+```
+
+#### 4.2.9上传镜像
+
+本意是打算上传一个公共镜像，但是无法上传，只有取消参数 `--visibility=public`才能上传成功，这样这个惊喜上传实际就是私有镜像了。根据前面的提示，理论上glance也是一个超级管理员的，不知道为什么还是不行？
+
+```
+glance image-create --name "cirros"   --file cirros-0.4.0-x86_64-disk.img   --disk-format qcow2 --container-format bare
+```
+
+![image-20231208142930233](.Install/image-20231208142930233.png)
+
+#### 4.2.10 检查镜像
+
+```
+glance image-list
+```
+
+![image-20231208143019928](.Install/image-20231208143019928.png)
+
+### 4.3 安装placement
+
+#### 4.3.1 创建placement数据库
+
+```
+#登录mysql
+mysql -uroot -p
+#登录以后执行的命令，非shell命令
+CREATE DATABASE placement;
+#设置mysql用户的密码
+GRANT ALL PRIVILEGES ON placement.* TO 'placement'@'localhost' IDENTIFIED BY '自己的密码';
+GRANT ALL PRIVILEGES ON placement.* TO 'placement'@'%' IDENTIFIED BY '自己的密码';
+```
+
+#### 4.3.2 创建placement用户
+
+```
+openstack user create --domain default --password-prompt placement
+```
+
+![image-20231208153954545](.Install/image-20231208153954545.png)
+
+#### 4.3.3 添加placemet权限
+
+```
+openstack role add --project service --user placement admin
+```
+
+#### 4.3.4 创建服务
+
+```
+openstack service create --name placement --description "Placement API" placement
+```
+
+![image-20231208154159691](.Install/image-20231208154159691.png)
+
+#### 4.3.5 创建api站点
+
+```
+openstack endpoint create --region RegionOne placement public http://control:8778
+openstack endpoint create --region RegionOne placement internal http://control:8778
+openstack endpoint create --region RegionOne placement admin http://control:8778
+```
+
+#### 4.3.6 安装软件
+
+```
+yum install openstack-placement-api
+```
+
+#### 4.3.7 修改配置文件
+
+```
+vim /etc/placement/placement.conf
+
+[placement_database]
+connection = mysql+pymysql://placement:自己密码@control/placement
+
+[api]
+auth_strategy = keystone
+
+[keystone_authtoken]
+
+auth_url = http://control:5000/v3
+memcached_servers = control:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+```
+
+#### 4.3.8 同步数据库
+
+```
+su -s /bin/sh -c "placement-manage db sync" placement
+```
+
+#### 4.3.9 重启apache
+
+```
+systemctl restart httpd
+```
+
+#### 4.3.10 验证服务
+
+```
+placement-status upgrade check
+```
+
+![image-20231208155002776](.Install/image-20231208155002776.png)
+
+### 4.4 nova 的安装
+
+#### 4.4.1 初始化数据库
+
+```
+#登录mysql
+mysql -uroot -p
+#登录以后执行的命令，非shell命令
+CREATE DATABASE nova_api;
+CREATE DATABASE nova;
+CREATE DATABASE nova_cell0;
+#设置mysql用户的密码
+GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'localhost' IDENTIFIED BY '自己的密码';
+GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'%' IDENTIFIED BY '自己的密码';
+GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY '自己的密码';
+GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY '自己的密码';
+GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'localhost' IDENTIFIED BY '自己的密码';
+GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' IDENTIFIED BY '自己的密码';
+#刷新权限
+flush privileges;
+```
+
+#### 4.4.2 创建nova用户
+
+```
+openstack user create --domain default --password-prompt nova
+```
+
+![image-20231208161458496](.Install/image-20231208161458496.png)
+
+#### 4.4.3 添加nova权限
+
+```
+openstack role add --project service --user nova admin
+```
+
+#### 4.4.4   创建nova服务
+
+```
+openstack service create --name nova --description "OpenStack Compute" compute
+```
+
+![image-20231208161531013](.Install/image-20231208161531013.png)
+
+#### 4.4.5 创建api
+
+```
+openstack endpoint create --region RegionOne compute public http://control:8774/v2.1
+openstack endpoint create --region RegionOne compute internal http://control:8774/v2.1
+openstack endpoint create --region RegionOne compute admin http://control:8774/v2.1
+```
+
+#### 4.4.6安装软件包
+
+```
+yum install openstack-nova-api openstack-nova-conductor openstack-nova-novncproxy openstack-nova-scheduler
+```
+
+#### 4.4.7 修改配置文件
+
+```
+[DEFAULT]
+enabled_apis = osapi_compute,metadata
+transport_url = rabbit://openstack:RABBIT_PASS@controller:5672/
+my_ip = 192.168.14.2
+use_neutron = true
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+
+[api_database]
+connection = mysql+pymysql://nova:NOVA_DBPASS@controller/nova_api
+
+[database]
+connection = mysql+pymysql://nova:NOVA_DBPASS@controller/nova
+
+[api]
+auth_strategy = keystone
+
+[keystone_authtoken]
+www_authenticate_uri = http://controller:5000/
+auth_url = http://controller:5000/
+memcached_servers = controller:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = nova
+password = NOVA_PASS
+
+[vnc]
+enabled = true
+server_listen = $my_ip 
+server_proxyclient_address = $my_ip
+
+[glance]
+api_servers = http://controller:9292
+
+[oslo_concurrency]
+lock_path = /var/lib/nova/tmp
+
+[placement]
+region_name = RegionOne
+project_domain_name = Default
+project_name = service
+auth_type = password
+user_domain_name = Default
+auth_url = http://controller:5000/v3
+username = placement
+password = PLACEMENT_PASS
+
+[neutron]
+url = http://controller:9696
+auth_url = http://controller:5000
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = RegionOne
+project_name = service
+username = neutron
+password = NEUTRON_PASS
+service_metadata_proxy = true
+metadata_proxy_shared_secret = NEUTRON_PASS
+```
+
+#### 4.4.8 同步数据库
+
+```
+su -s /bin/sh -c "nova-manage api_db sync" nova
+su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova
+su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova
+su -s /bin/sh -c "nova-manage db sync" nova
+#最后遇到一个坑，提示找不到数据库nova_api_cell0,实际上前面所有的配置都没有用到这个，不知道为什么会提示需要这个库，实在没办法规避，临时创建了这个库，并和其他库一样赋予权限
+#最后完成的时候，数据确是到了nova_api_cell0里面，并没有到nova_cell0
+#不知道问题在哪里？？？？？？？
+```
+
+#### 4.4.9 检查数据库是否正常
+
+```
+su -s /bin/sh -c "nova-manage cell_v2 list_cells" nova
+```
+
+如下图才是正常的
+
+![image-20231208171931640](.Install/image-20231208171931640.png)
+
+#### 4.4.10 启动服务 
+
+```
+systemctl enable \
+    openstack-nova-api.service \
+    openstack-nova-scheduler.service \
+    openstack-nova-conductor.service \
+    openstack-nova-novncproxy.service
+systemctl start \
+    openstack-nova-api.service \
+    openstack-nova-scheduler.service \
+    openstack-nova-conductor.service \
+    openstack-nova-novncproxy.service
+```
+
+4个服务，其中 openstack-nova-scheduler.service openstack-nova-conductor.service 这2个服务未启动成功。
+
+
+
+ 
