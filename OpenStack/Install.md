@@ -210,7 +210,7 @@ systemctl enable etcd
 systemctl start etcd
 ```
 
-## 4 OpenStack安装
+## 4 OpenStack控制端安装
 
 ### 4.1 Keystone  安装
 
@@ -535,7 +535,7 @@ GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' IDENTIFIED BY '自己的密�
 flush privileges;
 ```
 
-#### 4.4.2 创建nova用户
+#### 4.4.2 创建nova用户e
 
 ```
 openstack user create --domain default --password-prompt nova
@@ -576,24 +576,24 @@ yum install openstack-nova-api openstack-nova-conductor openstack-nova-novncprox
 ```
 [DEFAULT]
 enabled_apis = osapi_compute,metadata
-transport_url = rabbit://openstack:RABBIT_PASS@controller:5672/
+transport_url = rabbit://openstack:RABBIT_PASS@control:5672/
 my_ip = 192.168.14.2
 use_neutron = true
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 [api_database]
-connection = mysql+pymysql://nova:NOVA_DBPASS@controller/nova_api
+connection = mysql+pymysql://nova:NOVA_DBPASS@control/nova_api
 
 [database]
-connection = mysql+pymysql://nova:NOVA_DBPASS@controller/nova
+connection = mysql+pymysql://nova:NOVA_DBPASS@control/nova
 
 [api]
 auth_strategy = keystone
 
 [keystone_authtoken]
-www_authenticate_uri = http://controller:5000/
-auth_url = http://controller:5000/
-memcached_servers = controller:11211
+www_authenticate_uri = http://control:5000/
+auth_url = http://control:5000/
+memcached_servers = control:11211
 auth_type = password
 project_domain_name = Default
 user_domain_name = Default
@@ -607,7 +607,7 @@ server_listen = $my_ip
 server_proxyclient_address = $my_ip
 
 [glance]
-api_servers = http://controller:9292
+api_servers = http://control:9292
 
 [oslo_concurrency]
 lock_path = /var/lib/nova/tmp
@@ -618,13 +618,13 @@ project_domain_name = Default
 project_name = service
 auth_type = password
 user_domain_name = Default
-auth_url = http://controller:5000/v3
+auth_url = http://control:5000/v3
 username = placement
 password = PLACEMENT_PASS
 
 [neutron]
-url = http://controller:9696
-auth_url = http://controller:5000
+url = http://control:9696
+auth_url = http://control:5000
 auth_type = password
 project_domain_name = default
 user_domain_name = default
@@ -644,7 +644,7 @@ su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova
 su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova
 su -s /bin/sh -c "nova-manage db sync" nova
 #最后遇到一个坑，提示找不到数据库nova_api_cell0,实际上前面所有的配置都没有用到这个，不知道为什么会提示需要这个库，实在没办法规避，临时创建了这个库，并和其他库一样赋予权限
-#最后完成的时候，数据确是到了nova_api_cell0里面，并没有到nova_cell0
+#最后完成的时候，数据确是写到了nova_api_cell0库里面，并没有到nova_cell0库里面
 #不知道问题在哪里？？？？？？？
 ```
 
@@ -673,8 +673,390 @@ systemctl start \
     openstack-nova-novncproxy.service
 ```
 
-4个服务，其中 openstack-nova-scheduler.service openstack-nova-conductor.service 这2个服务未启动成功。
+#### 4.4.11 检查结果
+
+```
+openstack compute service list
+```
 
 
+
+![image-20231208224418084](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20231208224418084.png)
+
+如果不创建虚拟机实际上，这个组件已经部署完成了。如果要部署计算宿主机则需要在另外的节点执行
 
  
+
+### 4.5 neutron安装
+
+#### 4.5.1 初始化数据库
+
+```
+#登录mysql
+mysql -uroot -p
+#登录以后执行的命令，非shell命令
+CREATE DATABASE placement;
+#设置mysql用户的密码
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost'  IDENTIFIED BY 'adljf3werW2S';
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY 'adljf3werW2S';
+flush privileges;
+```
+
+#### 4.5.2 创建neutron用户
+
+```
+openstack user create --domain default --password-prompt neutron
+```
+
+![image-20231208221954757](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20231208221954757.png)
+
+#### 4.5.3增加权限
+
+```
+
+openstack role add --project service --user neutron admin
+```
+
+#### 4.5.4 创建neutron服务
+
+```
+openstack service create --name neutron \
+  --description "OpenStack Networking" network
+```
+
+#### 4.5.5 创建api接口
+
+```
+openstack endpoint create --region RegionOne \
+  network public http://control:9696
+  
+  openstack endpoint create --region RegionOne \
+  network internal http://control:9696
+  
+  openstack endpoint create --region RegionOne \
+  network admin http://control:9696
+```
+
+#### 4.5.6 修改主配置文件
+
+```
+vim /etc/neutron/neutron.conf
+ 
+[database]
+connection = mysql+pymysql://neutron:infocore@control/neutron
+ 
+[DEFAULT]
+core_plugin = ml2
+service_plugins =
+transport_url = rabbit://openstack:passwd@control
+auth_strategy = keystone
+notify_nova_on_port_status_changes = true
+notify_nova_on_port_data_changes = true
+ 
+[keystone_authtoken]
+www_authenticate_uri = http://control:5000
+auth_url = http://control:5000
+memcached_servers = control:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = neutron
+password = infocore
+ 
+[nova]
+auth_url = http://control:5000
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = RegionOne
+project_name = service
+username = nova
+password = infocore
+ 
+[oslo_concurrency]
+lock_path = /var/lib/neutron/tmp
+```
+
+#### 4.5.7 修改二层配置文件
+
+```
+vim /etc/neutron/plugins/ml2/ml2_conf.ini
+
+[ml2]
+type_drivers = flat,vlan	
+tenant_network_types =
+mechanism_drivers = linuxbridge
+extension_drivers = port_security
+[ml2_type_flat]
+flat_networks = provider
+[securitygroup]
+enable_ipset = true
+
+vim /etc/neutron/plugins/ml2/linuxbridge_agent.ini
+
+[linux_bridge]
+physical_interface_mappings = provider:eth1
+[vxlan]
+enable_vxlan = false
+[securitygroup]
+enable_security_group = true
+firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
+
+vim /etc/neutron/dhcp_agent.ini
+ 
+[DEFAULT]
+interface_driver = linuxbridge
+dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
+enable_isolated_metadata = true
+
+vim /etc/neutron/metadata_agent.ini
+[DEFAULT]
+nova_metadata_host = control
+metadata_proxy_shared_secret = infocore
+
+#这里其实还有和nova还有一次联动的修改，但是我们在配置nova的的时候已经已经提前配置了，所以就不用再继续修改了,也不需要再重启nova服务，如果在配置nova的时候没有设置在配置了还需要重启一次
+```
+
+
+
+#### 4.5.8 执行初始化操作
+
+```
+ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
+su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
+  --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
+```
+
+#### 4.5.9 重启服务
+
+```
+systemctl enable neutron-server.service neutron-linuxbridge-agent.service neutron-dhcp-agent.service neutron-metadata-agent.service 
+systemctl start neutron-server.service neutron-linuxbridge-agent.service neutron-dhcp-agent.service neutron-metadata-agent.service
+```
+
+
+
+#### 4.5.10 检查服务状态
+
+```
+openstack network agent list
+```
+
+正常这里不应该有computer节点，但是这个图是部署了computer在截取的，所以这里把计算节点也显示出来了。
+
+![image-20231210054412024](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20231210054412024.png)
+
+## 5.OpenStack计算节点安装
+
+### 5.1 nova配置安装
+
+#### 5.1.1 安装软件包
+
+```
+yum install openstack-nova-compute
+```
+
+#### 5.1.2 设置配置文件
+
+```
+vim /etc/nova/nova.conf
+
+[DEFAULT]
+enabled_apis = osapi_compute,metadata
+transport_url = rabbit://openstack:infocore@control
+#注意配置为计算节点的ip地址
+my_ip =192.168.111.127
+ 
+
+[api]
+auth_strategy = keystone
+
+[keystone_authtoken]
+www_authenticate_uri = http://control:5000/
+auth_url = http://control:5000/
+memcached_servers = control:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = nova
+password = infocore
+ 
+
+[vnc]
+enabled = true
+server_listen = 0.0.0.0
+server_proxyclient_address = $my_ip
+novncproxy_base_url = http://control:6080/vnc_auto.html
+ 
+
+[glance]
+api_servers = http://control:9292
+ 
+
+[oslo_concurrency]
+lock_path = /var/lib/nova/tmp
+ 
+
+[placement]
+region_name = RegionOne
+project_domain_name = Default
+project_name = service
+auth_type = password
+user_domain_name = Default
+auth_url = http://control:5000/v3
+username = placement
+password = infocore
+ 
+```
+
+#### 5.1.3 硬件加速配置
+
+```
+egrep -c '(vmx|svm)' /proc/cpuinfo
+如果返回值为0，就需要配置/etc/nova/nova.conf
+[libvirt]
+virt_type = qemu
+```
+
+#### 5.1.4 启动服务
+
+```
+systemctl enable libvirtd.service openstack-nova-compute.service
+systemctl start libvirtd.service openstack-nova-compute.service
+```
+
+#### 5.1.5 检查节点是否添加成功
+
+```
+openstack compute service list
+```
+
+![image-20231210055304349](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20231210055304349.png)
+
+### 5.2 neutron配置安装
+
+#### 5.2.1  安装软件包
+
+```
+yum install openstack-neutron-linuxbridge ebtables ipset
+```
+
+#### 5.2.2 设置配置文件
+
+```
+vim /etc/neutron/neutron.conf
+
+ 
+[DEFAULT]
+transport_url = rabbit://openstack:infocore@control
+auth_strategy = keystone
+ 
+[keystone_authtoken]
+www_authenticate_uri = http://control:5000
+auth_url = http://control:5000
+memcached_servers = control:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = neutron
+password = infocore
+ 
+[oslo_concurrency]
+lock_path = /var/lib/neutron/tmp
+
+vim /etc/neutron/plugins/ml2/linuxbridge_agent.ini
+ 
+[linux_bridge]
+physical_interface_mappings = provider:ens192
+[vxlan]
+enable_vxlan = false
+[securitygroup]
+enable_security_group = true
+firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
+ 
+ 
+ 
+vim /etc/sysctl.conf 
+ 
+net.bridge.bridge-nf-call-iptables=1
+net.bridge.bridge-nf-call-ip6tables=1
+执行下面命令
+modprobe br_netfilter
+sysctl -p
+```
+
+#### 5.2.3 启动服务
+
+```
+systemctl restart openstack-nova-compute.service
+systemctl enable neutron-linuxbridge-agent.service
+systemctl start neutron-linuxbridge-agent.service
+```
+
+
+
+#### 5.2.4 检查网络服务状态
+
+```
+openstack network agent list
+```
+
+## 6 Horizon安装
+
+### 6.1 安装软件包
+
+```
+#控制节点执行
+yum install -y openstack-dashboard
+```
+
+### 6.2 设置配置文件
+
+```
+vim /etc/openstack-dashboard/local_settings
+OPENSTACK_HOST = "control"
+ALLOWED_HOSTS = ['*']
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'control:11211',
+    },
+}
+OPENSTACK_KEYSTONE_URL = "http://control:5000/v3" 
+OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
+OPENSTACK_KEYSTONE_DEFAULT_ROLE = "user"
+OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = "Default"
+OPENSTACK_API_VERSIONS = {
+    "identity": 3,
+    "image": 2,
+    "volume": 2,
+}
+OPENSTACK_NEUTRON_NETWORK = {
+    'enable_router': False,
+    'enable_quotas': False,
+    'enable_distributed_router': False,
+    'enable_ha_router': False,
+    'enable_lb': False,
+    'enable_firewall': False,
+    'enable_vpn': False,
+    'enable_fip_topology_check': False,
+}
+TIME_ZONE = "Asia/Shanghai"
+WEBROOT = "/dashboard"
+
+```
+
+### 6.3 坑
+
+```
+1. /usr/share/openstack-dashboard/openstack_dashboard/local/.secret_key_store
+.secret_key_store 文件权限，要确保apache能读到他，这个文件权限还不能修改
+2. /etc/openstack-dashboard/local_settings  文件权限
+```
+
+
+
