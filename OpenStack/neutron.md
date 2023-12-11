@@ -1,3 +1,5 @@
+[toc]
+
 # OpenStack网络
 
 ## neutron网络基本介绍
@@ -50,29 +52,54 @@ openstack subnet create --network public --subnet-range 192.168.0.0/24 --gateway
 
 **作者有话说：**
 
-**由于这套环境是采用的类似公有云的，配置创建子网以后，控制直接直接离线，删除了子网和网络都无法恢复，重启才恢复**
+**由于这套环境是采用的类似公有云的，配置创建子网以后，控制直接直接离线，删除了子网和网络都无法恢复，重启才恢复，所以是未经过验证是否可行的。**
 
 ### 4.neutron网络范例-vxlan
 
 #### 4.1 重新修正配置文件
 
 ```
-/etc/neutron/plugins/ml2/ml2_conf.ini
+#控制节点
+vi /etc/neutron/plugins/ml2/ml2_conf.ini
 
 [ml2]
-type_drivers = vxlan,flat,vlan
+type_drivers = flat,vlan,vxlan	
 tenant_network_types = vxlan
-mechanism_drivers = openvswitch,l2population
+mechanism_drivers = linuxbridge,l2population
+extension_drivers = port_security
 
 [ml2_type_vxlan]
 vni_ranges = 1:1000
-vxlan_group = 224.0.0.1
+vxlan_group = 192.168.0.1-192.169.0.250
 
 [securitygroup]
 enable_security_group = True
 enable_ipset = True
 firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
 #然后重启服务
+systemctl restart neutron-server
+```
+
+```
+#计算节点
+vi /etc/neutron/plugins/ml2/linuxbridge_agent.ini
+
+[DEFAULT]
+
+[linux_bridge]
+physical_interface_mappings = provider:eth1
+
+[vxlan]
+enable_vxlan = True
+local_ip = 192.168.0.111
+l2_population = True
+
+[securitygroup]
+enable_security_group = True
+firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
+enable_ipset =True
+#然后重启服务
+systemctl restart  neutron-linuxbridge-agent.service openstack-nova-compute.service
 ```
 
 
@@ -84,4 +111,8 @@ openstack network create myvxlan --provider-network-type vxlan
 ```
 
 #### 4.3 创建子网
+
+```
+openstack subnet create --network myvxlan --subnet-range 172.17.0.0/24 myvxlansubnet
+```
 
