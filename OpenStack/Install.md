@@ -681,7 +681,7 @@ openstack compute service list
 
 
 
-![image-20231208224418084](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20231208224418084.png)
+![image-20231208224418084](.Install/image-20231208224418084.png)
 
 如果不创建虚拟机实际上，这个组件已经部署完成了。如果要部署计算宿主机则需要在另外的节点执行
 
@@ -708,7 +708,7 @@ flush privileges;
 openstack user create --domain default --password-prompt neutron
 ```
 
-![image-20231208221954757](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20231208221954757.png)
+![image-20231208221954757](.Install\image-20231208221954757.png)
 
 #### 4.5.3增加权限
 
