@@ -158,7 +158,7 @@ cd ceph-cluster
 ceph-deploy new ceph1 ceph2 ceph3
 ```
 
-![image-20231211204501289](.Install\image-20231211204501289.png)
+![image-20231211204501289](.Install/image-20231211204501289.png)
 
 ```
 #如果安装出现错误，可以通过该命令清理重来
@@ -189,9 +189,9 @@ mon_allow_pool_delete = true
 ceph-deploy install ceph1 ceph2 ceph3
 ```
 
-![image-20231211205146651](.Install\image-20231211205146651.png)
+![image-20231211205146651](.Install/image-20231211205146651.png)
 
-![image-20231211205931753](.Install\image-20231211205931753.png)
+![image-20231211205931753](.Install/image-20231211205931753.png)
 
 ### 3.5 初始monitor信息
 
@@ -199,7 +199,7 @@ ceph-deploy install ceph1 ceph2 ceph3
 ceph-deploy --overwrite-conf mon create-initial
 ```
 
-![image-20231211210129833](.Install\image-20231211210129833.png)
+![image-20231211210129833](.Install/image-20231211210129833.png)
 
 ### 3.6 同步管理信息
 
@@ -207,7 +207,7 @@ ceph-deploy --overwrite-conf mon create-initial
 ceph-deploy admin ceph1 ceph2 ceph3
 ```
 
-![image-20231211210408416](.Install\image-20231211210408416.png)
+![image-20231211210408416](.Install/image-20231211210408416.png)
 
 ### 3.7   安装mgr
 
@@ -215,7 +215,7 @@ ceph-deploy admin ceph1 ceph2 ceph3
 ceph-deploy mgr create ceph1 ceph2 ceph3
 ```
 
-![image-20231211210538465](.Install\image-20231211210538465.png)
+![image-20231211210538465](.Install/image-20231211210538465.png)
 
 ### 3.8 安装osd
 
@@ -246,7 +246,7 @@ ceph -s
 ceph osd tree
 ```
 
-![image-20231211212618504](.Install\image-20231211212618504.png)
+![image-20231211212618504](.Install/image-20231211212618504.png)
 
 到这里，整个集群就算安装完成，但是目前这个时候还无法提供服务，而且ceph可提供的服务包括块存储，对象存储，文件存储，也没有配置。
 
@@ -277,7 +277,7 @@ cd mgr-dashboard
 openssl req -new -nodes -x509 -subj "/O=IT/CN=ceph-mgr-dashboard" -days 3650 -keyout dashboard.key -out dashboard.crt -extensions v3_ca
 ```
 
-![image-20231211213207678](.Install\image-20231211213207678.png)
+![image-20231211213207678](.Install/image-20231211213207678.png)
 
 ### 4.5 启动dashboard
 
@@ -298,7 +298,7 @@ ceph dashboard set-login-credentials admin admin
 
 ### 4.7 访问
 
-![image-20231211213652465](.Install\image-20231211213652465.png)
+![image-20231211213652465](.Install/image-20231211213652465.png)
 
 ## 5 配置rgw网关
 
