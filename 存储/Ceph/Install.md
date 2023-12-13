@@ -8,6 +8,8 @@
 
 存储3块盘，其中一个磁盘当成日志盘，另外2块当成数据盘。
 
+日志盘是属于历史版本的功能，新版本已经不涉及日志盘了，当前2023年通过yum部署的版本是M,发布于2018年，最新版本是O版，发布于2020年。Ceph是按照英文字母排序来发布版本的。
+
 部署顺序是先部署Ceph集群，以192.168.0.55为部署机
 
 | IP地址        | 配置               | 角色     |
@@ -209,7 +211,7 @@ ceph-deploy admin ceph1 ceph2 ceph3
 
 ![image-20231211210408416](.Install/image-20231211210408416.png)
 
-### 3.7   安装mgr
+### 3.7 安装mgr
 
 ```
 ceph-deploy mgr create ceph1 ceph2 ceph3
@@ -300,22 +302,82 @@ ceph dashboard set-login-credentials admin admin
 
 ![image-20231211213652465](.Install/image-20231211213652465.png)
 
-## 5 配置rgw网关
+## 5. 配置rgw网关
 
-### 5.1 rgw网关介绍
+### 5.1 部署rgw网关
 
-Ceph RGW（Rados Gateway）网关是一个用于提供对象存储服务的组件，它允许通过 S3 和 Swift 接口访问 Ceph 存储集群中的对象数据。RGW 网关为应用程序和用户提供了一个简单且可扩展的方式来存储和访问对象数据，类似于云存储服务（如 Amazon S3 和 OpenStack Swift）。
+原本计划是一台单独的网关，目前配置失败，所以沿用第一台部署机器作为部署的rgw网关的机器，第一台rgw网关集群做为nginx入口。
 
-以下是 RGW 网关的一些主要特点：
+有些操作会失败，所有这里记录的部分步骤可能是无用的，仅供参考。
 
-1. **对象存储接口支持**：RGW 网关同时支持 S3 和 Swift 接口，这使得各种类型的应用程序和工具可以无缝地与 RGW 网关进行交互。你可以使用 AWS SDK、S3cmd、Rclone 等工具来管理和操作 RGW 网关上的对象。
-2. **多租户和身份认证**：RGW 网关支持多租户环境，可以为不同的用户和应用程序提供独立的访问权限和数据隔离。它支持基于密钥、基于 AWS IAM 和基于 Keystone 的身份认证方式，你可以根据需要选择适合的身份认证方式。
-3. **数据持久性和可靠性**：RGW 网关使用 Ceph RADOS（可靠自动分布式对象存储）作为后端存储，它通过将对象数据分布在多个 OSD（对象存储设备）上实现数据的持久性和冗余。这确保了数据的可靠性和高可用性。
-4. **弹性扩展性**：RGW 网关可以与 Ceph 存储集群一起水平扩展，以满足不断增长的存储需求。你可以在需要时添加更多的 RGW 守护进程和存储节点，以提高系统的吞吐量和容量。
-5. **访问控制和存储策略**：RGW 网关支持灵活的访问控制策略，你可以定义存储桶级别和对象级别的访问权限。它还支持存储桶策略和生命周期管理，让你能够自动化管理对象的生命周期和存储成本。
-6. **日志记录和监控**：RGW 网关提供了详细的日志记录和监控功能，你可以通过日志文件和性能统计信息来了解网关的使用情况和性能状况。此外，你还可以使用 Ceph 的监控工具（如 ceph-dash）来实时监控 RGW 网关的状态。
+```
+#添加配置文件 vi ceph.conf 末尾
 
-总体而言，Ceph RGW 网关是一个强大且可靠的对象存储解决方案，它为应用程序和用户提供了方便的方式来存储、访问和管理对象数据。无论是构建私有云存储还是公有云存储，RGW 网关都是一个理想的选择。
+[client.radosgw.gateway]
+keyring = /etc/ceph/ceph.bootstrap-rgw.keyring
+rgw dns name = 114.114.114.114
+#执行安装
+ceph-deploy  --overwrite-conf rgw create ceph1
+```
 
-### 5.2 部署rgw网关
+![image-20231212100444461](.Install/image-20231212100444461.png)
 
+### 5.2启动rgw网关
+
+```
+systemctl start ceph-radosgw@rgw.ceph1
+```
+
+### 5.3 创建存储池
+
+```
+ceph osd pool create default.rgw.buckets.data 6 3
+#后面6和3是pg数量和pgp数量，一般p数量是osd2倍，pgp是pg的一半
+```
+
+### 5.4 创建账号
+
+对象存储涉及到桶，桶和账号有关系
+
+```
+radosgw-admin user create --uid=myuser --display-name="My User"
+```
+
+![image-20231212100857155](.Install/image-20231212100857155.png)
+
+### 5.5 为桶添加权限
+
+```
+radosgw-admin caps add --uid=myuser --caps="buckets=*"
+```
+
+![image-20231212101336955](.Install/image-20231212101336955.png)
+
+### 5.6 创建桶
+
+由于没找到rgw接口创建桶，所以安装s3cmd来创建
+
+```
+#安装s3cmd
+yum -y install s3cmd
+#配置s3cmd,根据提示输入下面的内容，最后成功以后会生存文件/root/.s3cfg
+s3cmd --configure
+```
+
+![image-20231212105058907](.Install/image-20231212105058907.png)
+
+```
+#创建一个桶，来作为docker仓库的后端存储
+s3cmd mb s3://<bucket_name>
+```
+
+![image-20231212105232782](.Install/image-20231212105232782.png)
+
+### 5.7 测试上传文件
+
+```
+ s3cmd put abcd s3://dockerimage/test/
+ s3cmd lss3://dockerimage/test/
+```
+
+![image-20231212105657042](.Install/image-20231212105657042.png)
