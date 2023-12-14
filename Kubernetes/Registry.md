@@ -71,7 +71,21 @@ Registry本来应该放置到Docker目录下的，但是由于涉及对对接后
                  key: secretKey
    ```
    
-   **错误如下，而且是每次上传都是重新上传。**
+   关于上面的endpoint的坑，在网上很多文档都是错误的参数，代码参考
+   
+   ```
+   https://github.com/distribution/distribution/blob/01f589cf8726565aa3c5c053be12873bafedbedc/registry/storage/driver/s3-aws/s3.go#L109
+   #个人也是踩过这个坑的，而且是解决后，才发现有人这样说的
+   #当时发现的问题也是没有向指定的rgw请求，而是网公网请求的
+   ```
+   
+   ![image-20231214091004427](.Registry/image-20231214091004427.png)
+   
+   ![image-20231214091404079](.Registry/image-20231214091404079.png)
+   
+   
+   
+   关于下面的问题，也是也有人说明，但是没说解决办法，只说了是强一致性的问题。
    
    ![image-20231213150023961](.Registry/image-20231213150023961.png)
 
