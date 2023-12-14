@@ -324,27 +324,39 @@ ceph osd pool create us-west-1 32 32 replicated
 
 
 
-##### 4.1.6.4 绑定到rgw
+##### 4.1.6.4 上传测试数据
 
 ```
-radosgw-admin pool modify --pool=us-west-1 --rgw-zone=us-west-1
+#安装s3cmd
+yum -y install s3cmd
+#准备配置文件
+vi /root/.s3cfg
 
+[default]
+access_key = xxxx
+host_base = 192.168.0.163:80
+host_bucket = 192.168.0.163:80
+secret_key = xxxxxxx
+use_https = False
+website_endpoint = 192.168.0.163:80
+
+#创建桶
+s3cmd mb  s3://test123
+
+#上传数据
+s3cmd put cephadm  s3://test123
+
+#列表数据
+s3cmd ls  s3://test123
 ```
 
+![](.Install-cephadm/image-20231213220129071.png)
+
+##### 4.1.6.5 应用到Registry
+
+目前这个还是有问题，原因暂时未知,参考
+
+[]: Kubernetes/IRegistry.md	"Registry仓库使用后端对象存储"
 
 
-##### 4.1.6.5 创建桶
-##### 4.1.6.6 上传数据
-
-
-
-创建用户
-
-配置权限
-
-创建pool
-
-关联pool给rgw
-
-测试s3cmd
 
