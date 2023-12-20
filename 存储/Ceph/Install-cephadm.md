@@ -37,7 +37,7 @@ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce
 #### 2.1.3 安装docker
 
 ```
-#这里选择的版本是o版发布前的最后一个大版本
+#这里选择的Docker版本是Ceph O版发布前的最后一个大版本
 yum install -y docker-ce-19.03.15 docker-ce-cli-19.03.15 containerd.io
 ```
 
@@ -60,6 +60,7 @@ yum -y install python3 yum-utils
 
 ```
 #也可以使用chrony，看个人习惯，如果已经自带可忽略本步骤，ceph对时间非常敏感，所以要特别注意。
+#这里没替换ntp的server，是因为默认是通公网，如果不具备通公网的能力，请手工配置ntpserver。
 yum -y install ntp
 systemctl start ntpd
 systemctl enable ntpd
@@ -107,7 +108,7 @@ curl --silent --remote-name --location https://github.com/ceph/ceph/raw/octopus/
 chmod +x cephadm
 ./cephadm add-repo --release octopus
 ./cephadm install
-#这个时候加入PATH,所以不用路径，可以直接执行。
+#这个时候已经加入PATH,所以不用路径，可以直接执行。
 cephadm install ceph-common
 ```
 
@@ -245,7 +246,7 @@ radosgw-admin realm create --rgw-realm=rgw01 --default
 
 ![image-20231213170305083](.Install-cephadm/image-20231213170305083.png)
 
-#### 4.1.2 创建区域
+#### 4.1.2 创建地域
 
 ```
 创建一个名为 "default" 的 Ceph RGW (RADOS Gateway) zonegroup，并将其设置为主 zonegroup 和默认 zonegroup。
