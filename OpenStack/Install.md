@@ -378,6 +378,7 @@ project_domain_name = Default
 user_domain_name = Default
 project_name = service
 username = glance
+password = GLANCE_PASS
 ```
 
 #### 4.2.8 同步数据库
@@ -708,7 +709,7 @@ flush privileges;
 openstack user create --domain default --password-prompt neutron
 ```
 
-![image-20231208221954757](.Install\image-20231208221954757.png)
+![image-20231208221954757](.Install/image-20231208221954757.png)
 
 #### 4.5.3增加权限
 
@@ -845,7 +846,7 @@ openstack network agent list
 
 正常这里不应该有computer节点，但是这个图是部署了computer在截取的，所以这里把计算节点也显示出来了。
 
-![image-20231210054412024](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20231210054412024.png)
+![image-20231210054412024](.Install/image-20231210054412024.png)
 
 ## 5.OpenStack计算节点安装
 
@@ -933,7 +934,7 @@ systemctl start libvirtd.service openstack-nova-compute.service
 openstack compute service list
 ```
 
-![image-20231210055304349](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20231210055304349.png)
+![image-20231210055304349](.Install/image-20231210055304349.png)
 
 ### 5.2 neutron配置安装
 

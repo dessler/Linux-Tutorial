@@ -10,7 +10,7 @@
   glance image-list
   ```
 
-  ![image-20231211111739746](.CreateCVM/image-20231211111739746.png)
+  ![image-20231211111739746](.Create/image-20231211111739746.png)
 
   
 
@@ -22,7 +22,7 @@
   openstack network create myvxlan --provider-network-type vxlan
   ```
 
-  ![image-20231211111605071](.CreateCVM/image-20231211111605071.png)
+  ![image-20231211111605071](.Create/image-20231211111605071.png)
 
 - 创建子网
 
@@ -30,7 +30,7 @@
    openstack subnet create --network myvxlan --subnet-range 172.17.0.0/24 myvxlansubnet
    ```
 
-  ![image-20231211111814435](.CreateCVM/image-20231211111814435.png)
+  ![image-20231211111814435](.Create/image-20231211111814435.png)
 
 - 创建规格
 
@@ -40,7 +40,7 @@
   openstack flavor create --id auto --ram 2048 --disk 20 --vcpus 2 myflavor
   ```
 
-  ![image-20231211111853513](.CreateCVM/image-20231211111853513.png)
+  ![image-20231211111853513](.Create/image-20231211111853513.png)
 
 - 计算节点加入cell
 
@@ -57,7 +57,7 @@
   openstack hypervisor stats show
   ```
 
-  ![image-20231211112734924](.CreateCVM/image-20231211112734924.png)
+  ![image-20231211112734924](.Create/image-20231211112734924.png)
 
 - 查看安全组
 
@@ -67,7 +67,7 @@
   openstack security group  list
   ```
 
-  ![image-20231211113005657](.CreateCVM/image-20231211113005657.png)
+  ![image-20231211113005657](.Create/image-20231211113005657.png)
 
  
 
@@ -88,7 +88,7 @@
   openstack server create --flavor 62161238-b7f9-412b-a505-6e14e9c4f6c8 --image 8567f490-0531-43c6-872d-edc87a814b6d --nic net-id=167ee887-f4e8-4009-8a73-aaf93d736af5 --security-group 59b2f1ab-4aa5-42be-9f02-996661e85af3  --user-data ./user-data.txt test2   
   ```
 
-  ![image-20231211121248569](.CreateCVM/image-20231211121248569.png)
+  ![image-20231211121248569](.Create/image-20231211121248569.png)
 
 - 查看创建的虚拟机
 
@@ -96,7 +96,7 @@
   openstack server list
   ```
 
-  ![image-20231211120902228](.CreateCVM/image-20231211120902228.png)
+  ![image-20231211120902228](.Create/image-20231211120902228.png)
 
    进入系统以后，发现ip是没有自动配置到网卡上，目前暂不知道原因，但是手工配置ip到网卡以后，是可以通信的
-  ![image-20231211122030015](.CreateCVM/image-20231211122030015.png)
+  ![image-20231211122030015](.Create/image-20231211122030015.png)
