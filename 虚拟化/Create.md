@@ -14,7 +14,7 @@
 
 总的来说，IMG格式是一种较为简单的磁盘镜像格式，适用于简单的虚拟化场景。而QCOW2格式是一种高级的磁盘镜像格式，提供了更多的功能和灵活性，适用于更复杂的虚拟化需求。
 ``` 
-#kvm支持多种文件格式，这2种比较常见，简单来说就是img创建多大，磁盘占用就会多大，性能较好，qcow2无论创建多大，使用了多少，占用多少。市面上的公有云/私有云基本都是qcow2格式。
+#kvm支持多种文件格式，这2种比较常见，简单来说就是img性能较好，功能较少，qcow2是性能还行，功能较多。市面上的公有云/私有云基本都是qcow2格式。
 qemu-img create -f raw /path/to/image_file.img 20G
 qemu-img create -f qcow /path/to/image_file.qcow2 20G
 ```
@@ -22,7 +22,7 @@ qemu-img create -f qcow /path/to/image_file.qcow2 20G
 ## 2.创建
 
 ```
-virt-install --name MyVM --ram 512 --vcpus 1 --disk path=/data/image_file.img,size=50 --cdrom /CentOS-7-x86_64-Minimal-2009.iso --network bridge=virbr0 --graphics vnc --noautoconsole
+virt-install --name MyVM --ram 512 --vcpus 1 --disk path=/data/image_file.img,size=20 --cdrom /CentOS-7-x86_64-Minimal-2009.iso --network bridge=virbr0 --graphics vnc --noautoconsole
 ```
 
 您提供的命令是使用virt-install创建一个名为"MyVM"的KVM虚拟机，具有以下配置：
@@ -31,7 +31,7 @@ virt-install --name MyVM --ram 512 --vcpus 1 --disk path=/data/image_file.img,si
 虚拟CPU核心数：1
 磁盘：使用路径/data/image_file.img创建一个大小为20GB的磁盘镜像文件
 光驱：使用路径/CentOS-7-x86_64-Minimal-2009.iso作为安装介质
-网络：连接到名为virbr0的虚拟网络桥接(这里就看填写默认的virbr0网桥还是我们手工定义的网桥，就觉得了虚拟机的ip地址)
+网络：连接到名为virbr0的虚拟网络桥接(这里就看填写默认的virbr0网桥还是我们手工定义的网桥，就决定了虚拟机的ip地址)
 图形界面：使用VNC作为图形显示接口 （开启vnc默认是从5900开始监听，但是这个要注意安全）
 不自动打开控制台
 
@@ -68,8 +68,12 @@ virt-install --name qcow2 --ram 512 --vcpus 1 --disk path=/CentOS-7-x86_64-Gener
 
 
 ## 4.xml解析
-```
 
+默认我们每创建一个虚拟机，就会生成一个name.xml 的文件，默认路径是在 `/etc/libvirt/qemu/`,当然通过ps命令也能看到部分参数。
+
+我们如果修改了xml文件需要使用define来让他生效。
+
+```
 <domain type='kvm'>
   <name>MyVM</name>
   <uuid>c47e19d5-b25c-4581-8a95-fcb1cb02fd04</uuid>
@@ -161,6 +165,7 @@ virt-install --name qcow2 --ram 512 --vcpus 1 --disk path=/CentOS-7-x86_64-Gener
     <input type='keyboard' bus='ps2'/>
     <graphics type='vnc' port='-1' autoport='yes'>
       <listen type='address'/>
+      ##定义了vnc的信息，如果要修改端口或者修改监听地址，需要在这里修改。
     </graphics>
     <video>
       <model type='cirrus' vram='16384' heads='1' primary='yes'/>
