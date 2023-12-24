@@ -2,6 +2,10 @@
 
 # RSYNC命令
 
+如果使用iso自己安装最小版本的系统，默认是没有没有这个命令的。如果是购买的公有云/私有云，一般都会有，如果没有可以直接安装：`yum -y install rsync`。
+
+
+
 ## 命令介绍
 
 RSYNC（Remote Sync）是一个用于远程文件同步和备份的开源工具。它通过差异化传输算法，仅传输文件的变化部分，从而实现高效的文件同步和备份。以下是一些关键特点和用法介绍：
@@ -71,6 +75,13 @@ RSYNC是一个功能强大而灵活的工具，被广泛用于文件同步、备
 
 ***作者优化说：其实从3/4 我们可以看出来，谁在前面，谁就是源；谁在后面谁就是目标。***
 
+``` 
+#这个是作者最常用的命令
+rsync -avz -e 'ssh -p xxx' user@1.1.1.1:/data/test/  /data/test/
+```
+
+
+
 ##  特殊用法
 
 以下部分在实际运维过程中比较有用的参数组合
@@ -123,7 +134,7 @@ RSYNC是一个功能强大而灵活的工具，被广泛用于文件同步、备
    #会把httpd目录下的内容复制到/root/httpddd/目录下
    ```
 
-   总结下来就是，如果源不带"/", 则会复制目录 本身及内容，源带了"/",则是复制目录下的内容到目标目录下。
+   总结下来就是，如果源不带"/", 则会复制目录本身及内容，源带了"/",则是复制目录下的内容到目标目录下。
 
    如果目标目录不存在，则会创建对应的目录
 
@@ -169,20 +180,20 @@ gid = nobody
 use chroot = yes
 pid file = /var/run/rsyncd.pid
 
-[module1]                                   ##模块名字，根据需要定义，连接的时候需要用到
-    path = /etc/nova/
-    comment = Module 1                      #说明
-    read only = yes                         ##作为只读，其他人就只能从这里拉数据，否则还可以往里面写数据
-    list = yes                              #允许列表
-    auth users = username1                  #用户名，连接的时候需要
-    secrets file = /etc/rsyncd.secrets      ##如果在公网传输还需要加密码
+[module1]                                   ##模块名字，根据需要定义，连接的时候需要用到。
+    path = /etc/nova/                       ##路径，如果客户端来同步，这个目录就是被同步的内容。
+    comment = Module 1                      #说明。
+    read only = yes                         ##作为只读，其他人就只能从这里拉数据，否则还可以往里面写数据。
+    list = yes                              #允许列表，只读取文件列表，不同步。
+    auth users = username1                  #用户名，连接的时候需要，这个和系统的账号是没关系，完全自定义的。
+    secrets file = /etc/rsyncd.secrets      ##如果在公网传输还需要加密码。
 
 [module2]
     path = /etc/httpd
     comment = Module 2
     read only = no
     list = yes
-    auth users = username2
+    auth users = username2                  
     secrets file = /etc/rsyncd.secrets
 ```
 
@@ -207,12 +218,37 @@ rsync --daemon
 
 
 
-### 连接方式
+#### 连接方式
 
  ```
- rsync --password-file=/root/key   username1@192.168.0.17::module1/ /root/abc/
+ rsync --password-file=/root/key   username1@192.168.0.17::module1 /root/abc/
  #特别注意ip后面是2个冒号，后面名字是配置文件定义的模块名字，而不是路径。
- #密码文件自己在本机准备一个文件，把密码写进去，添加600权限
+ #密码文件自己在本机准备一个文件，把密码写进去，修改600权限
  #用户名也是配置文件定义的名字
  ```
 
+#### 开机自启动
+
+```
+vi /etc/systemd/system/rsyncd.service
+#添加下面的内容
+
+[Unit]
+Description=RSync Server
+Documentation=man:rsync(1)
+
+[Service]
+ExecStart=/usr/bin/rsync --daemon --no-detach
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+
+#配置
+systemctl enable rsyncd
+
+#当然也可以通过任务，通过脚本来检查进程是否正常，如果异常则手工启动。
+```
+
+***作者有话说：这个配置可以连接列表，但是无法同步数据，暂时没想到为什么。***
