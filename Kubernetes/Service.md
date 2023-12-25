@@ -1,3 +1,5 @@
+[toc]
+
 # Service
 
 ## Service基本概念
@@ -257,3 +259,60 @@ spec:
 如果是其他类型的Serivce 也只是在前面加一个规则，比如常用的Nodeport，也只是增加一个iptbles规则，把命中的规则往svc哪个规则走。
 
 ![image-20231130165328570](.Service/image-20231130165328570.png)
+
+## 服务种类
+
+### ClusterIP
+
+默认服务类型，只允许集群内部访问，svc解析的出来的地址就是ClusterIP地址，不可ping，因为没有响应他的后端。只能通过ip+端口形式访问到后端的pod。
+
+### NodePort
+
+允许和集群同三层网络的局域网都能访问，可以理解为在ClusterIP基础上多了一层NodePort访问方式。
+
+是所有node，包括master的ip都可以访问的，只要用了ip+nodeport的端口
+
+***作者有话说：在Server里面有一个字段`externalTrafficPolicy`,有2个参数，一个是Cluster也是默认参数，另外是一个Local。刚才我们说过了，是所有node的ip+nodeport都可以访问到后端pod，但是如果这个集群有5000台机器，有几万个服务，怎么办？所以这里我们就可以选Local，就只有pod所在的节点的ip+nodeport才可以访问，而其他节点的ip+nodeport都是不允许访问的。***
+
+### LoadBalancer
+
+这个要看这个LoadBalancer是内网和外网，如果是内网则基本和NodePort一样，可以理解他在NodePort基础上在多了一层LB的访问方式，这个LB的后端根据不同的LB类型不一样，可能不一样，有的后端就是nodeip+nodeport。在超大规模的情况下，LB的后端肯定不能是所有的node，所以`externalTrafficPolicy`也就是有价值的。
+
+
+
+作者有话说：以上3个服务类型，其实可以简单理解为一层包一层，在`iptables`里面每层比上一层多了一条访问规则，假设ClusterIP 只要1条规则及后续规则，那么NodePort就有2条规则，LoadBalancer就 有3条
+
+
+
+### Headless Service
+
+Headless Service也成无头服务。
+
+这个是一个特殊的服务，常规的服务都是一个服务对应一个解析地址，但是Headless Service是没有普通的解析地址的，而是如果这个无头服务，有多少个pod，他就有多少条域名解析，主要应用于有状态的服务，常见的就是各种中间件。
+
+比如有一个zookeeper集群，一共3个pod，控制器的名字叫，zookeeper-1 ，在middlewrae的命名空间，那么就会生成如下3条域名解析。
+
+```
+zookeeper-1.middleware.svc.cluster.local
+zookeeper-2.middleware.svc.cluster.local
+zookeeper-3.middleware.svc.cluster.local
+#每个域名解析对应的ip地址就是pod的ip地址，而且这个不仅仅用于外部访问到zookeeper集群，更是zookeeper维护集群关系的地址。
+```
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-headless
+  namespace: middleware
+spec:
+  clusterIP: None                             ##其实重点就在这里。
+  selector:
+    app: zookeeper
+  ports:
+    - name: client
+      protocol: TCP
+      port: 2181
+      targetPort: 2181
+```
+
