@@ -1,20 +1,24 @@
+[toc]
+
 # 安装PostgreSQL
 
-## 准备yum源
+
+## Centos7
+### 准备yum源
 
 ```
-#不同的系统，不同的pg版本对于的源都是不一样的，可以选择的https://www.postgresql.org/download/
+#不同的系统，不同的pg版本对应的源都是不一样的，可以查看：https://www.postgresql.org/download/
 #下面这个是centos7，pg14的地址
 yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 ```
 
-## 安装
+### 安装
 
 ```
 yum install -y postgresql14-server
 ```
 
-## 初始化
+### 初始化
 
 ```
 /usr/pgsql-14/bin/postgresql-14-setup initdb
@@ -28,7 +32,7 @@ yum install -y postgresql14-server
 
 执行该命令后，您可以通过启动PostgreSQL服务来访问和使用初始化的数据库实例。请注意，您可能需要使用适当的权限和身份验证来访问数据库。
 
-## 启动
+### 启动
 
 ```
 systemctl enable postgresql-14
@@ -36,5 +40,46 @@ systemctl start postgresql-14
 
 #另外一个方式是到 postgres 用户下使用
 /usr/pgsql-14/bin/pg_ctl -D /var/lib/pgsql/14/data/ -l logfile start #启动，当然也支持重启，停止操作。
+```
+## Centos8
+
+### 准备yum源
+
+```
+#虽然centos8采用dnf来替代yum，但是他们还是采用rpm包，并且连配置文件都是通用的/etc/yum.conf和/etc/yum.repos.d/目录中的.repo文件
+#安装pg的源和以来
+dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+dnf install -y lz4
+```
+
+
+
+### 安装
+
+```
+#由于centos8的源里面默认有pg，所以需要先停用旧版本，启用新版本。
+dnf module disable -y postgresql
+dnf module enable -y postgresql:14
+
+#安装
+dnf install -y postgresql14-server postgresql14-contrib
+```
+
+
+
+### 初始化
+
+```
+#初始化
+/usr/pgsql-14/bin/postgresql-14-setup initdb
+```
+
+
+
+### 启动
+
+```
+systemctl enable postgresql-14
+systemctl start postgresql-14
 ```
 
