@@ -65,9 +65,29 @@ start slave;
  show slave status\G;
  
  #以下2个进程都需要是：Yes 才是正常的。
- Slave_IO_Running: Yes
- Slave_SQL_Running: Yes
+ Slave_IO_Running: Yes        #代表正常从master节点读取binlog日志
+ Slave_SQL_Running: Yes       #代表正常解析master的binlog日志
  ```
+
+ ## 坑
+
+1.telnet 坑
+
+```
+telnet xxxx 3306 
+提示xxx ip 不允许链接，这个是因为mysql是一个支持telnet链接的服务（不仅仅是探测网络是否畅通）所以telnet实际上等于mysql -h xxxx -uxx（当前系统用户）
+一般情况下在root下操作就等于用root链接，如果本地ip并未被授权在root下登录，就会出现该问题。
+```
+
+2.主从坑
+
+```
+配置主从的时候需要配置允许的ip地址
+192.168.0.0/24     不能使用(cidr)
+192.168.0.*        不能使用(通配)
+192.168.0.11       可以使用(具体ip)
+%                  可以使用(所有ip)
+```
 
 
 
