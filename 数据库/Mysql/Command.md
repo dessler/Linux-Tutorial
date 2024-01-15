@@ -226,3 +226,28 @@ RENAME TABLE old_table_name TO new_table_name;
 ALTER TABLE table_name RENAME COLUMN old_column_name TO new_column_name;
 ```
 
+### 6.主从配置
+
+```
+#创建主从账号，master操作
+grant  replication slave  on  *.* to 'replica'@'192.168.0.%'   identified  by  'passwd';
+flush privileges;
+
+#记录当前binglog值，master操作
+show master status;
+
+#从链接到主，slave操作
+change master to master_host='192.168.0.76',master_user='replica',master_password='passwd',master_log_file='mysql-bin.000001',master_log_pos=677;
+
+#启动从节点，slave操作
+start slave;
+
+#停止从节点，slave操作
+stop slave;
+
+#检查主从状态，slave操作
+
+show slave status\G;
+
+```
+
