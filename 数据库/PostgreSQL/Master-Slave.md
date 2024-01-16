@@ -59,6 +59,15 @@ systemctl enable postgresql-14
 systemctl start postgresql-14  
 ```
 
+```
+host    replication       replica        192.168.0.160/32        md5      #配置上面定义的用户名
+
+host /local 代表链接方式：host代表网络链接方式，local代表可以理解代表本地unix套接字
+replication 代表链接的库：replication 是一个特殊的库，表示用于主从配置，也可以是特定的库，或者all 代表所有库
+replica     代表实际的用户： 也可以是所有用户，all就表示所有
+md5         代表认证方式：   常见的比如peer一般和前面的local配套使用
+```
+
 
 
 
@@ -66,7 +75,7 @@ systemctl start postgresql-14
 ### Slave 配置
 
 ```
-#初次备份，不需要初始化，如果已经初始化可先删除数据目录，再停止服务在来一次
+#初次备份，不需要初始化，如果已经初始化可先删除数据目录，再停止服务在来一次,这里的密码是主从的密码，而非操作系统密码。
 pg_basebackup -D /var/lib/pgsql/14/data -h 10.0.0.2 -p 5432 -U replica -X stream -P
 #-X stream：指定备份方法为流复制方式。这意味着备份将使用流复制协议从主节点复制数据。其他都比较好理解
 ```
@@ -87,7 +96,7 @@ standby_mode = on
 ```
 
 ```
-#启动pg
+#启动pg,如果备份的是用的root账号，需要把数据库对应的目录修改目录及文件的权限权限为postgres才能启动成功。
 systemctl enable postgresql-14
 systemctl start postgresql-14  
 ```
