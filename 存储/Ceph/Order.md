@@ -1,6 +1,10 @@
+[toc]
+
 # Ceph命令
 
 ***作者有话说：任何命令都需要自己在实际中多操作，有些命令/参数就算记不住也没关系，需要用的时候在查下就可以了，但是前提你要知道这个命令。***
+
+## 命令介绍
 
 Ceph 提供了一组命令行工具，用于管理和监控 Ceph 存储集群。以下是一些常用的 Ceph 命令：
 
@@ -61,3 +65,34 @@ Ceph 提供了一组命令行工具，用于管理和监控 Ceph 存储集群。
 这只是一些常用的 `cephadm` 命令示例，还有其他一些命令可以用于不同的管理和维护任务。您可以使用 `cephadm --help` 或 `cephadm <command> --help` 来获取更详细的命令帮助信息。
 
 希望这能帮助您了解 `cephadm` 命令。如果您有其他问题，请随时提问。
+
+## 真实有用命令
+
+### 1.纠错码的命令
+
+如果要创建常用的4+2需要按照下面的流程来操作，默认的纠错码如果不定义是2+2。
+
+1. 定义一个配置文件
+
+```
+ceph osd erasure-code-profile set myecprofile k=4 m=2
+```
+
+2. 创建pool，使用该配置文件
+
+```
+ ceph osd pool create myecpool 128 128 erasure myecprofile
+```
+
+3. 查看当前pool属于那个配置文件
+
+```
+ceph osd pool get <pool_name> erasure_code_profile
+```
+
+4. 查看某个配置文件的详细信息
+
+```
+ceph osd erasure-code-profile get <profile_name>  
+```
+
