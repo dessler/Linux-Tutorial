@@ -30,9 +30,12 @@ pg_dumpall -U postgres -h localhost -p 5432 -f back.sql
 #备份本机不需要输入密码
 pg_dumpall -U postgres  -f back.sql
 
-
-#备份单个库,不需要输入密码
+#备份单个库,不需要输入密码，默认文本格式，只能用psql还原
 pg_dump -U postgres -d dbname  -f dbname.sql
+
+#备份单个库,不需要输入密码，使用二进制备份
+pg_dump -U postgres -d dbname -F c -f dbname.sql
+
 
 ```
 
@@ -42,5 +45,36 @@ pg_dump -U postgres -d dbname  -f dbname.sql
 #还原单个库，库必须要提前创建
 #默认不加参数的pg_dump的备份只能用psql还原
 psql -h 192.168.1.1 -p 5432 -U postgres -d public  -f  public.sql 
+
+#二进制备份还原
+pg_restore -h 192.168.0.182 -U postgres -d public1  back2.sql 
+```
+
+
+
+```
+#创建超级管理员,需要超级管理员才可以创建。
+CREATE ROLE super_admin WITH SUPERUSER LOGIN PASSWORD 'your_password';
+```
+
+
+
+```
+#查看每个库的大小
+SELECT pg_database.datname AS "Database Name", pg_size_pretty(pg_database_size(pg_database.datname)) AS "Size" FROM pg_database;
+
+#查看所有用户
+SELECT usename AS "Username", usecreatedb AS "Can Create DB?", usesuper AS "Is Superuser?" FROM pg_user;
+
+#创建表（这里需要注意，在pg里面每个表还有自己的owner，如果权限不对也是无法curd的）
+#比如如果某个库绑定了某个账号，如果用psql用户进入库创建了表，则这个绑定的用户对这个表也无curd权限。
+CREATE TABLE users1 (id serial PRIMARY KEY, name varchar(100) NOT NULL, email varchar(100) UNIQUE);
+
+#修改表的owner
+ALTER TABLE table_name OWNER TO new_owner;
+
+#插入数据
+INSERT INTO users1 (name, email) VALUES ('User', 'user@example.com');
+
 ```
 
