@@ -63,6 +63,12 @@ CREATE ROLE super_admin WITH SUPERUSER LOGIN PASSWORD 'your_password';
 #查看每个库的大小
 SELECT pg_database.datname AS "Database Name", pg_size_pretty(pg_database_size(pg_database.datname)) AS "Size" FROM pg_database;
 
+#查看当前库有多少表，需要进入库
+SELECT count(*) AS table_count FROM information_schema.tables WHERE table_schema = 'public' AND table_catalog = 'xxxx';
+
+#查看当前库每个表有多少条记录(需要进入库)，如果表太多，可以添加limit参数
+SELECT table_schema, table_name, (xpath('/row/cnt/text()', xml_count))[1]::text::int as row_count FROM (SELECT table_name, table_schema, query_to_xml(format('SELECT count(*) as cnt FROM %I.%I', table_schema, table_name), false, true, '') as xml_count FROM information_schema.tables WHERE table_schema = 'public') t ORDER BY row_count DESC;
+
 #查看所有用户
 SELECT usename AS "Username", usecreatedb AS "Can Create DB?", usesuper AS "Is Superuser?" FROM pg_user;
 
