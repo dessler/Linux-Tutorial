@@ -66,8 +66,7 @@ SELECT pg_database.datname AS "Database Name", pg_size_pretty(pg_database_size(p
 #查看当前库有多少表，需要进入库
 SELECT count(*) AS table_count FROM information_schema.tables WHERE table_schema = 'public' AND table_catalog = 'xxxx';
 
-#查看当前库每个表有多少条记录(需要进入库)，如果表太多，可以添加limit参数
-SELECT table_schema, table_name, (xpath('/row/cnt/text()', xml_count))[1]::text::int as row_count FROM (SELECT table_name, table_schema, query_to_xml(format('SELECT count(*) as cnt FROM %I.%I', table_schema, table_name), false, true, '') as xml_count FROM information_schema.tables WHERE table_schema = 'public') t ORDER BY row_count DESC;
+#查看当前库每个表有多少条记录(需要进入库)，如果表太多，可以添加limit
 
 #查看所有用户
 SELECT usename AS "Username", usecreatedb AS "Can Create DB?", usesuper AS "Is Superuser?" FROM pg_user;
@@ -104,6 +103,8 @@ citext: 提供了大小写不敏感的文本比较和匹配功能，简化文本
 SELECT * FROM pg_extension;
 或者
 \dx 
+#查询有哪些扩展可用
+SELECT * FROM pg_available_extensions;
 
 #部分扩展pg，可能不会自带，需要额外导入包才可以
 ```
@@ -115,5 +116,8 @@ template1 是一个可以修改的模板数据库，用户可以向其中添加�
 ```
 
 ```
+#查看事务级别，命令行修改仅仅针对当前事务生效，全局修改需要修改配置文件并重启服务。默认级别是read committed，事务只能读取已经提交的数据变更，这可以避免脏读，但仍可能出现不可重复读和幻读的问题。
+SHOW transaction_isolation;
+SELECT current_setting('transaction_isolation') AS isolation_level;
 ```
 
